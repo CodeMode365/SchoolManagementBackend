@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { GenderType } from '@/constants/enums';
+import { GenderType } from '@/config/enums.config';
 import type { ParentType } from '@/types/model'; // Assuming you have defined ParentType in your types
 
 const parentSchema = new Schema<ParentType>(
@@ -20,7 +20,11 @@ const parentSchema = new Schema<ParentType>(
       type: String,
       required: true,
     },
-    gender: GenderType,
+    gender: {
+      type: String,
+      enum: GenderType,
+      required: true,
+    },
     address: {
       city: String,
       tole: String,
@@ -35,9 +39,9 @@ const parentSchema = new Schema<ParentType>(
         ref: 'Student', // Reference to Student model
       },
     ],
-    role: {
+    user: {
       type: Schema.Types.ObjectId,
-      ref: 'Role',
+      ref: 'User',
       required: true,
     },
   },

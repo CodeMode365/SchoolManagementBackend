@@ -1,4 +1,4 @@
-import { FeeStatusType, PriorityType } from '@/constants/enums';
+import { FeeStatusType, PriorityType } from '@/config/enums.config';
 import type { BillType } from '@/types/model';
 import { model, Schema } from 'mongoose';
 

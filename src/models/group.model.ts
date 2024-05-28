@@ -13,12 +13,12 @@ const groupSchema = new Schema(
     },
     lead: {
       type: Schema.Types.ObjectId,
-      ref: ['Staff', 'Student', 'Teacher', 'User'],
+      ref: 'User',
     },
     members: [
       {
         type: Schema.Types.ObjectId,
-        ref: ['Staff', 'Student', 'Teacher', 'User'],
+        ref: 'User',
       },
     ],
     organization: {

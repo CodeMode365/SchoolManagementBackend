@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { GenderType } from '@/constants/enums';
+import { GenderType } from '@/config/enums.config';
 import type { StudentType } from '@/types/model';
 
 const studentSchema = new Schema<StudentType>(
@@ -20,7 +20,11 @@ const studentSchema = new Schema<StudentType>(
       type: Date,
       required: true,
     },
-    gender: GenderType,
+    gender: {
+      type: String,
+      enum: GenderType,
+      required: true,
+    },
     address: {
       city: String,
       tole: String,
@@ -47,9 +51,14 @@ const studentSchema = new Schema<StudentType>(
         ref: 'Class',
       },
     ],
-    role: {
+    organization: {
       type: Schema.Types.ObjectId,
-      ref: 'Role',
+      ref: 'Organization',
+      required: true,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
   },

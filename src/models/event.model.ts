@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 import type { EventType } from '@/types/model';
-import { EventStatusType } from '@/constants/enums';
+import { EventStatusType } from '@/config/enums.config';
 
 const eventSchema = new Schema<EventType>(
   {
@@ -16,7 +16,11 @@ const eventSchema = new Schema<EventType>(
       type: Date,
       required: true,
     },
-    status: EventStatusType,
+    status: {
+      type: String,
+      enum: EventStatusType,
+      required: true,
+    },
     endDate: {
       type: Date,
       required: true,
@@ -26,15 +30,15 @@ const eventSchema = new Schema<EventType>(
       required: true,
     },
     createdBy: {
-      //has one creator
+      // has one creator
       type: Schema.Types.ObjectId,
-      ref: ['User', 'Staff'],
+      ref: 'User',
       required: true,
     },
     organizer: {
-      //has one organization
+      // has one organization
       type: Schema.Types.ObjectId,
-      required: 'Organization',
+      ref: 'Organization',
     },
   },
   {

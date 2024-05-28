@@ -3,18 +3,7 @@ import { Schema, model } from 'mongoose';
 
 const userSchema = new Schema<UserType>(
   {
-    firstName: {
-      type: String,
-      required: true,
-    },
-    middleName: {
-      type: String,
-      require: false,
-    },
-    lastName: {
-      type: String,
-      required: true,
-    },
+    username: { type: String, required: true },
     email: {
       type: String,
       required: true,
@@ -25,7 +14,9 @@ const userSchema = new Schema<UserType>(
       required: true,
     },
     role: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'Role',
+      required: true,
     },
   },
   { timestamps: true }

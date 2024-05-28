@@ -5,7 +5,7 @@ const sessionSchema = new Schema<UserSessionType>(
   {
     user: {
       type: Schema.Types.ObjectId,
-      ref: ['User', 'Parent', 'Teacher'],
+      ref: 'User',
       required: true,
     },
     sessionToken: {

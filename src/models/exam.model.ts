@@ -20,7 +20,7 @@ const examSchema = new Schema(
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: ['Staff', 'User'],
+      ref: 'User',
     },
     organization: {
       type: Schema.Types.ObjectId,

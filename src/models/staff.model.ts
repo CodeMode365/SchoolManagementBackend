@@ -33,9 +33,9 @@ const staffSchema = new Schema<StaffSchema>(
       type: String,
       required: true,
     },
-    role: {
+    user: {
       type: Schema.Types.ObjectId,
-      ref: 'Role',
+      ref: 'User',
       required: true,
     },
   },

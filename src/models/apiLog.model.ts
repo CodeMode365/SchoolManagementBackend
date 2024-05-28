@@ -16,7 +16,7 @@ const apiLogSchema = new Schema<ApiLogType>(
       required: true,
     },
     responseTime: {
-      type: Number,
+      type: String,
       required: true,
     },
     ip: {
@@ -27,11 +27,11 @@ const apiLogSchema = new Schema<ApiLogType>(
       type: String,
       required: true,
     },
-    organization: {
-      type: Schema.Types.ObjectId,
-      ref: 'Organization',
-      required: false,
-    },
+    // user: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'User',
+    //   required: true,
+    // },
   },
   { timestamps: true }
 );

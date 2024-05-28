@@ -1,3 +1,4 @@
+import { AccountType } from '@/config/enums.config';
 import type { RoleType } from '@/types/model';
 import { Schema, model } from 'mongoose';
 
@@ -5,6 +6,7 @@ const roleSchema = new Schema<RoleType>(
   {
     name: {
       type: String,
+      enum: AccountType,
       required: true,
       unique: true,
     },
@@ -24,4 +26,4 @@ const roleSchema = new Schema<RoleType>(
 
 const Role = model('Role', roleSchema);
 
-module.exports = Role;
+export default Role;
