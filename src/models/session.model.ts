@@ -1,11 +1,11 @@
-import mongoose, { Schema, Document } from "mongoose";
-import type { UserSessionType } from "@/types/model";
+import { Schema, model } from 'mongoose';
+import type { UserSessionType } from '@/types/model';
 
 const sessionSchema = new Schema<UserSessionType>(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: ["User", "Parent", "Teacher"],
+      type: Schema.Types.ObjectId,
+      ref: ['User', 'Parent', 'Teacher'],
       required: true,
     },
     sessionToken: {
@@ -24,6 +24,6 @@ const sessionSchema = new Schema<UserSessionType>(
   { timestamps: true }
 );
 
-const Session = mongoose.model("Session", sessionSchema);
+const Session = model('Session', sessionSchema);
 
 export default Session;

@@ -1,6 +1,6 @@
-import mongoose, { Schema, Document } from "mongoose";
-import { GenderType } from "@/constants/enums";
-import type { ParentType } from "@/types/model"; // Assuming you have defined ParentType in your types
+import { Schema, model } from 'mongoose';
+import { GenderType } from '@/constants/enums';
+import type { ParentType } from '@/types/model'; // Assuming you have defined ParentType in your types
 
 const parentSchema = new Schema<ParentType>(
   {
@@ -31,15 +31,19 @@ const parentSchema = new Schema<ParentType>(
     },
     children: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Student", // Reference to Student model
+        type: Schema.Types.ObjectId,
+        ref: 'Student', // Reference to Student model
       },
     ],
+    role: {
+      type: Schema.Types.ObjectId,
+      ref: 'Role',
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
-// Create model
-const Parent = mongoose.model("Parent", parentSchema);
+const Parent = model('Parent', parentSchema);
 
 export default Parent;

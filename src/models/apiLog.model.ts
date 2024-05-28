@@ -1,5 +1,5 @@
-import type { ApiLogType } from "@/types/model";
-import { Schema, model } from "mongoose";
+import type { ApiLogType } from '@/types/model';
+import { Schema, model } from 'mongoose';
 
 const apiLogSchema = new Schema<ApiLogType>(
   {
@@ -12,7 +12,7 @@ const apiLogSchema = new Schema<ApiLogType>(
       required: true,
     },
     status: {
-      type: Number,
+      type: String,
       required: true,
     },
     responseTime: {
@@ -27,10 +27,15 @@ const apiLogSchema = new Schema<ApiLogType>(
       type: String,
       required: true,
     },
+    organization: {
+      type: Schema.Types.ObjectId,
+      ref: 'Organization',
+      required: false,
+    },
   },
   { timestamps: true }
 );
 
-const ApiLog = model("ApiLog", apiLogSchema);
+const ApiLog = model('ApiLog', apiLogSchema);
 
 export default ApiLog;

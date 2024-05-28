@@ -1,7 +1,7 @@
-import { UserType } from "@/constants/enums";
-import { Schema, model } from "mongoose";
+import type { UserType } from '@/types/model';
+import { Schema, model } from 'mongoose';
 
-const userSchema = new Schema(
+const userSchema = new Schema<UserType>(
   {
     firstName: {
       type: String,
@@ -26,21 +26,11 @@ const userSchema = new Schema(
     },
     role: {
       type: String,
-      enum: UserType,
-      required: true,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: ["Parent", "Teacher", "Admin"],
     },
   },
   { timestamps: true }
 );
 
-const User = model("User", userSchema);
+const User = model('User', userSchema);
 
 export default User;

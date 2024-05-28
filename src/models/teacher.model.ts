@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
-import { GenderType } from "@/constants/enums";
-import type { TeacherType } from "@/types/model";
+import { Schema, model } from 'mongoose';
+import { GenderType } from '@/constants/enums';
+import type { TeacherType } from '@/types/model';
 
 const teacherSchema = new Schema<TeacherType>(
   {
@@ -20,7 +20,11 @@ const teacherSchema = new Schema<TeacherType>(
       type: Date,
       required: false,
     },
-    gender: GenderType,
+    gender: {
+      type: String,
+      enum: GenderType,
+      required: true,
+    },
     address: {
       city: String,
       tole: String,
@@ -32,11 +36,15 @@ const teacherSchema = new Schema<TeacherType>(
     joinedDate: Date,
     education: String,
     experience: String,
+    role: {
+      type: Schema.Types.ObjectId,
+      ref: 'Role',
+    },
   },
 
   { timestamps: true }
 );
 
-const Teacher = model("Teacher", teacherSchema);
+const Teacher = model('Teacher', teacherSchema);
 
 export default Teacher;

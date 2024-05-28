@@ -1,6 +1,6 @@
-import { FeeStatusType, PriorityType } from "@/constants/enums";
-import type { BillType } from "@/types/model";
-import { model, Schema } from "mongoose";
+import { FeeStatusType, PriorityType } from '@/constants/enums';
+import type { BillType } from '@/types/model';
+import { model, Schema } from 'mongoose';
 
 const billSchema = new Schema<BillType>(
   {
@@ -17,23 +17,27 @@ const billSchema = new Schema<BillType>(
       enum: FeeStatusType,
       default: FeeStatusType.UNPAID,
     },
-    priority: PriorityType,
+    priority: {
+      type: String,
+      enum: PriorityType,
+      default: PriorityType.MEDIUM,
+    },
     description: {
       type: String,
       required: false,
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
     },
     student: {
       type: Schema.Types.ObjectId,
-      ref: "Student",
+      ref: 'Student',
     },
   },
   { timestamps: true }
 );
 
-const Bill = model("Bill", billSchema);
+const Bill = model('Bill', billSchema);
 
 export default Bill;
