@@ -9,9 +9,9 @@ const {
 } = StatusCode;
 
 class ApiError {
-  private statusCode: number;
-  private message: unknown;
-  private description: string;
+  public statusCode: number;
+  public message: unknown;
+  public description: string;
   constructor(code: number, message: unknown, description: string) {
     this.statusCode = code;
     this.message = message;
