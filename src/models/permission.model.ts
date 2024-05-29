@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
 
 const permissionSchema = new Schema(
   {
@@ -15,6 +15,6 @@ const permissionSchema = new Schema(
   { timestamps: true }
 );
 
-const Permission = model("Permission", permissionSchema);
+const Permission = model('Permission', permissionSchema);
 
 export default Permission;
