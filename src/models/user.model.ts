@@ -1,3 +1,4 @@
+import { AccountStatusType } from '@/config/enums.config';
 import type { UserType } from '@/types/model';
 import { Schema, model } from 'mongoose';
 
@@ -13,10 +14,17 @@ const userSchema = new Schema<UserType>(
       type: String,
       required: true,
     },
-    role: {
-      type: Schema.Types.ObjectId,
-      ref: 'Role',
-      required: true,
+    roles: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Role',
+        required: true,
+      },
+    ],
+    status: {
+      type: String,
+      enum: AccountStatusType,
+      default: AccountStatusType.ACTIVE,
     },
   },
   { timestamps: true }
