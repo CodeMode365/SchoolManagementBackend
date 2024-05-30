@@ -1,18 +1,14 @@
-import { Schema, model } from 'mongoose';
-import { GenderType } from '@/config/enums.config';
-import type { ParentType } from '@/types/model'; // Assuming you have defined ParentType in your types
+import { Schema, model } from "mongoose";
+import { GenderType } from "@/config/enums.config";
+import type { ParentSchemaType } from "@/types/model"; // Assuming you have defined ParentType in your types
 
-const parentSchema = new Schema<ParentType>(
+const parentSchema = new Schema<ParentSchemaType>(
   {
     firstName: {
       type: String,
       required: true,
     },
     middleName: {
-      type: String,
-      required: false,
-    },
-    email: {
       type: String,
       required: false,
     },
@@ -36,18 +32,18 @@ const parentSchema = new Schema<ParentType>(
     children: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Student', // Reference to Student model
+        ref: "Student", // Reference to Student model
       },
     ],
     user: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
   },
   { timestamps: true }
 );
 
-const Parent = model('Parent', parentSchema);
+const Parent = model("Parent", parentSchema);
 
 export default Parent;

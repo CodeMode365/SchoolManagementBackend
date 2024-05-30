@@ -1,8 +1,8 @@
 import { AccountType } from '@/config/enums.config';
-import type { RoleType } from '@/types/model';
+import type { RoleSchemaType } from '@/types/model';
 import { Schema, model } from 'mongoose';
 
-const roleSchema = new Schema<RoleType>(
+const roleSchema = new Schema<RoleSchemaType>(
   {
     name: {
       type: String,
@@ -18,6 +18,7 @@ const roleSchema = new Schema<RoleType>(
       {
         type: Schema.Types.ObjectId,
         ref: 'Permission',
+        required: true,
       },
     ],
   },

@@ -1,8 +1,8 @@
 import { FeeStatusType, PriorityType } from '@/config/enums.config';
-import type { BillType } from '@/types/model';
+import type { BillSchemaType } from '@/types/model';
 import { model, Schema } from 'mongoose';
 
-const billSchema = new Schema<BillType>(
+const billSchema = new Schema<BillSchemaType>(
   {
     title: {
       type: String,

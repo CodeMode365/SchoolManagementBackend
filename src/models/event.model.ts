@@ -1,8 +1,8 @@
 import { Schema, model } from 'mongoose';
-import type { EventType } from '@/types/model';
+import type { EventSchemaType } from '@/types/model';
 import { EventStatusType } from '@/config/enums.config';
 
-const eventSchema = new Schema<EventType>(
+const eventSchema = new Schema<EventSchemaType>(
   {
     title: {
       type: String,

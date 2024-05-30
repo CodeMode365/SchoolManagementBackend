@@ -1,7 +1,7 @@
-import type { OrganizationType } from '@/types/model';
+import type { OrganizationSchemaType } from '@/types/model';
 import { model, Schema } from 'mongoose';
 
-const organizationSchema = new Schema<OrganizationType>(
+const organizationSchema = new Schema<OrganizationSchemaType>(
   {
     name: {
       type: String,

@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
-import type { UserSessionType } from '@/types/model';
+import type { UserSessionSchemaType } from '@/types/model';
 
-const sessionSchema = new Schema<UserSessionType>(
+const sessionSchema = new Schema<UserSessionSchemaType>(
   {
     user: {
       type: Schema.Types.ObjectId,

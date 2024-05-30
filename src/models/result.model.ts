@@ -1,8 +1,8 @@
 import { Schema, model } from 'mongoose';
-import type { ResultType } from '@/types/model';
+import type { ResultSchemaType } from '@/types/model';
 import { ExamType, SubjectType } from '@/config/enums.config';
 
-const resultSchema = new Schema<ResultType>(
+const resultSchema = new Schema<ResultSchemaType>(
   {
     title: String,
     student: {

@@ -1,7 +1,7 @@
-import type { ApiLogType } from '@/types/model';
+import type { ApiLogSchemaType } from '@/types/model';
 import { Schema, model } from 'mongoose';
 
-const apiLogSchema = new Schema<ApiLogType>(
+const apiLogSchema = new Schema<ApiLogSchemaType>(
   {
     url: {
       type: String,

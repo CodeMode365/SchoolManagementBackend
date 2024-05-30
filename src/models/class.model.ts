@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
-import type { ClassType } from '@/types/model';
+import type { ClassSchemaType } from '@/types/model';
 
-const classSchema = new Schema<ClassType>(
+const classSchema = new Schema<ClassSchemaType>(
   {
     className: String,
     section: {
