@@ -117,11 +117,12 @@ const bulkDelete = async (req: Request, res: Response) => {
 };
 
 //attendence management
+/*
 const getAttendance = (req: Request, res: Response) => {};
 const updateAttendance = (req: Request, res: Response) => {};
 const removeAttendance = (req: Request, res: Response) => {};
 const markAttendance = (req: Request, res: Response) => {};
-
+*/
 export default {
   getStudent,
   getByClass,
@@ -133,8 +134,8 @@ export default {
   bulkAdd,
   bulkDelete,
   addParent,
-  getAttendance,
-  removeAttendance,
-  updateAttendance,
-  markAttendance,
+  // getAttendance,
+  // removeAttendance,
+  // updateAttendance,
+  // markAttendance,
 };
