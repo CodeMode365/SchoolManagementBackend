@@ -7,7 +7,7 @@ const checkMissingFields = (fields: string[], body: Record<string, string>) => {
     const errorMessage = `Missing fields: ${missingFields.join(', ')}`;
     throw ApiError.badRequest(errorMessage);
   }
-  return pick(body, fields);
+  return pick(body, fields) as Record<string, any>;
 };
 
 export default {
