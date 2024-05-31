@@ -27,8 +27,8 @@ router.get('/get-parents/:studentId', StudentController.getParents);
 router.patch('/add-parent/:studentId', StudentController.addParent);
 
 //grouped
-router.get('/from-org/:organizationId', StudentController.getByOrg);
-router.get('/from-class/:classId', StudentController.getByClass);
+router.get('/by-org/:organizationId', StudentController.getByOrg);
+router.get('/by-class/:classId', StudentController.getByClass);
 
 //Bulk management
 router.post('/bulk-add', StudentController.bulkAdd);
