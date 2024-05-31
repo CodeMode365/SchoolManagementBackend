@@ -1,5 +1,5 @@
-import type { AdminSchemaType } from "@/types/model";
-import { Schema, Document, model } from "mongoose";
+import type { AdminSchemaType } from '@/types/model';
+import { Schema, model } from 'mongoose';
 
 const adminSchema = new Schema<AdminSchemaType>(
   {
@@ -8,17 +8,17 @@ const adminSchema = new Schema<AdminSchemaType>(
     lastName: String,
     organization: {
       type: Schema.Types.ObjectId,
-      ref: "Organization",
+      ref: 'Organization',
     },
     adminLevel: {
       type: String,
-      enum: ["Admin", "SubAdmin"],
-      default: "Admin",
+      enum: ['Admin', 'SubAdmin'],
+      default: 'Admin',
     },
   },
   { timestamps: true }
 );
 
-const Admin = model("Admin", adminSchema);
+const Admin = model('Admin', adminSchema);
 
 export default Admin;
