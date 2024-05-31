@@ -1,6 +1,6 @@
-import { AccountStatusType } from "@/config/enums.config";
-import type { UserSchemaType } from "@/types/model";
-import { Schema, model } from "mongoose";
+import { AccountStatusType } from '@/config/enums.config';
+import type { UserSchemaType } from '@/types/model';
+import { Schema, model } from 'mongoose';
 
 const userSchema = new Schema<UserSchemaType>(
   {
@@ -8,7 +8,6 @@ const userSchema = new Schema<UserSchemaType>(
     email: {
       type: String,
       required: true,
-      unique: true,
     },
     password: {
       type: String,
@@ -17,7 +16,7 @@ const userSchema = new Schema<UserSchemaType>(
     roles: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Role",
+        ref: 'Role',
         required: true,
       },
     ],
@@ -30,6 +29,6 @@ const userSchema = new Schema<UserSchemaType>(
   { timestamps: true }
 );
 
-const User = model("User", userSchema);
+const User = model('User', userSchema);
 
 export default User;
