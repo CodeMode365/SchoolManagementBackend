@@ -2,7 +2,6 @@ import { Student } from '@/models';
 import type { StudentSchemaType } from '@/types/model';
 import { ApiError } from '@/utils';
 import { pick } from 'lodash';
-import { Types } from 'mongoose';
 
 const getStudent = async (stdId: string) => {
   const student = await Student.findById(stdId);
