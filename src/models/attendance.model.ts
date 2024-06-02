@@ -1,11 +1,12 @@
+import { AttendanceStatusType } from '@/config/enums.config';
 import { model, Schema } from 'mongoose';
 
 const attendanceSchema = new Schema(
   {
     status: {
       type: String,
-      enum: ['Present', 'Absent', 'Late', 'Half'],
-      default: 'Present',
+      enum: AttendanceStatusType,
+      default: AttendanceStatusType.PRESENT,
     },
     user: {
       type: Schema.Types.ObjectId,
