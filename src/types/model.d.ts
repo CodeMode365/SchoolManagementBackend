@@ -1,13 +1,17 @@
 import type {
+  AccountStatusType,
+  AccountType,
   EventStatusType,
+  ExamType,
   FeeStatusType,
   GenderType,
   PriorityType,
+  StatusType,
   SubjectType,
-} from "@/constants/enums";
-import type mongoose, { Document, Schema } from "mongoose";
+} from '@/config/enums.config';
+import type mongoose, { Document, ObjectId, Schema } from 'mongoose';
 
-export interface StudentType extends Document {
+export interface StudentSchemaType extends Document {
   firstName: string;
   lastName: string;
   middleName: string;
@@ -17,97 +21,98 @@ export interface StudentType extends Document {
     city: string;
     tole: string;
   };
-  contact: {
-    phone: string;
-    email: string;
-  };
-  parent: mongoose.Schema.Types.ObjectId;
-  grade: mongoose.Schema.Types.ObjectId;
+  phone: string;
+  parents: mongoose.Types.Array<mongoose.ObjectId>;
+  class: ObjectId;
+  organization: ObjectId;
+  user: ObjectId;
 }
 
-export interface TeacherType extends Document {
-  firstName: String;
+export interface TeacherSchemaType extends Document {
+  firstName: string;
   middleName?: string;
-  lastName: String;
+  lastName: string;
   dateOfBirth: Date;
   gender: GenderType;
   address: {
-    city: String;
-    tole: String;
+    city: string;
+    tole: string;
   };
-  contact: {
-    phone: String;
-    email: String;
-  };
+  phone: string;
+  email: string;
+  user: ObjectId;
   joinedDate: Date;
-  education: String;
-  experience: String;
+  education: string;
+  experience: string;
+  organization: ObjectId;
 }
 
-export interface ApiLogType extends Document {
+export interface ApiLogSchemaType extends Document {
   url: string;
   method: string;
-  status: number;
-  responseTime: number;
+  status: string;
+  responseTime: string;
   ip: string;
   userAgent: string;
+  user: ObjectId;
 }
 
-export interface BillType extends Document {
+export interface BillSchemaType extends Document {
   title: string;
   category: string;
   status: FeeStatusType;
   priority: PriorityType;
   description: string;
-  createdBy: Schema.Types.ObjectId;
-  student: Schema.Types.ObjectId;
+  createdBy: ObjectId;
+  student: ObjectId;
 }
 
-export interface ClassType extends Document {
+export interface ClassSchemaType extends Document {
   className: string;
   section?: string;
-  monitor?: Schema.Types.ObjectId;
-  classTeacher: Schema.Types.ObjectId;
-  students: [Schema.Types.ObjectId];
+  monitor?: ObjectId;
+  classTeacher: ObjectId;
+  students: [ObjectId];
+  organization: ObjectId;
 }
 
-export interface UserSessionType extends Document {
-  user: Schema.Types.ObjectId;
+export interface UserSessionSchemaType extends Document {
+  user: ObjectId;
   sessionToken: string;
   createdAt: Date;
   expiresAt?: Date;
 }
 
-export interface EventType extends Document {
+export interface EventSchemaType extends Document {
   title: string;
   description: string;
   startDate: Date;
   endDate: Date;
   status: EventStatusType;
   location: string;
-  createdBy: Schema.Types.ObjectId;
-  organizer: string;
+  createdBy: ObjectId;
+  organizer: ObjectId;
 }
 
-export interface ParentType extends Document {
+export interface ParentSchemaType extends Document {
   firstName: string;
   middleName?: string;
   lastName: string;
-  email?: String;
   gender: GenderType;
   address: {
     city: string;
     tole: string;
   };
-  contact: {
-    phone: string;
-    email: string;
-  };
-  children: Schema.Types.ObjectId[];
+  phone: string;
+  email: string;
+  // children: ObjectId[];
+  user: ObjectId;
+  organization: ObjectId;
 }
 
-export interface ResultType extends Document {
-  student: Schema.Types.ObjectId;
+export interface ResultSchemaType extends Document {
+  title: string;
+  student: ObjectId;
   subject: SubjectType;
   marks: {
     subject: SubjectType;
@@ -122,13 +127,13 @@ export interface ResultType extends Document {
   examType: ExamType;
 }
 
-export interface NotificationType extends Document {
+export interface NotificationSchemaType extends Document {
   title: string;
   content: string;
-  receiver: Schema.Types.ObjectId[];
+  receiver: ObjectId[];
   priority: PriorityType;
   status?: StatusType;
-  createdBy: Schema.Types.ObjectId;
+  createdBy: ObjectId;
   createdAt: Date;
 }
 
@@ -137,30 +142,54 @@ export interface Url {
   url: string;
 }
 
-export interface OrganizationType extends Document {
+export interface OrganizationSchemaType extends Document {
   name: string;
   address: string;
   phoneNumber: string;
   email: string;
   urls: Url[];
   createdAt: Date;
+  classes: ObjectId[];
 }
 
-export interface UserType extends Document {
-  firstName: string;
-  middleName?: string;
-  lastName: string;
+export interface UserSchemaType extends Document {
+  username: string;
   email: string;
   password: string;
-  role: UserType;
-  createdAt: Date;
+  roles: Schema.Types.Array<ObjectId>;
+  status: AccountStatusType;
 }
 
-export interface AdminType extends Document {
+export interface StaffSchemaType extends Document {
   firstName: string;
   middleName?: string;
   lastName: string;
-  organization: Schema.Types.ObjectId;
-  email: string;
-  createdAt: Date;
+  organization: ObjectId;
+  user: ObjectId;
+  designation: string;
+}
+
+export interface AdminSchemaType extends Document {
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+  organization: ObjectId;
+  user: ObjectId;
+  adminLevel: 'Admin' | 'SubAdmin';
+}
+
+export interface RoleSchemaType extends Document {
+  name: AccountType;
+  description: string;
+  permissions: Schema.Types.Array<ObjectId>;
+}
+
+export interface TokenSchemaType extends Document {
+  token: string;
+  user: ObjectId;
+}
+
+export interface AttendanceSchemaType extends Document {
+  status: AttendanceSchemaType;
+  user: ObjectId;
 }

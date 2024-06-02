@@ -1,46 +1,34 @@
-import { UserType } from "@/constants/enums";
-import { Schema, model } from "mongoose";
+import { AccountStatusType } from '@/config/enums.config';
+import type { UserSchemaType } from '@/types/model';
+import { Schema, model } from 'mongoose';
 
-const userSchema = new Schema(
+const userSchema = new Schema<UserSchemaType>(
   {
-    firstName: {
-      type: String,
-      required: true,
-    },
-    middleName: {
-      type: String,
-      require: false,
-    },
-    lastName: {
-      type: String,
-      required: true,
-    },
+    username: { type: String, required: true },
     email: {
       type: String,
       required: true,
-      unique: true,
     },
     password: {
       type: String,
       required: true,
     },
-    role: {
+    roles: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Role',
+        required: true,
+      },
+    ],
+    status: {
       type: String,
-      enum: UserType,
-      required: true,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: ["Parent", "Teacher", "Admin"],
+      enum: AccountStatusType,
+      default: AccountStatusType.ACTIVE,
     },
   },
   { timestamps: true }
 );
 
-const User = model("User", userSchema);
+const User = model('User', userSchema);
 
 export default User;

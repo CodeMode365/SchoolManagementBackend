@@ -1,12 +1,13 @@
-import mongoose, { Schema, Document } from "mongoose";
-import type { ResultType } from "@/types/model";
-import { ExamType, SubjectType } from "@/constants/enums";
+import { Schema, model } from 'mongoose';
+import type { ResultSchemaType } from '@/types/model';
+import { ExamType, SubjectType } from '@/config/enums.config';
 
-const resultSchema = new Schema<ResultType>(
+const resultSchema = new Schema<ResultSchemaType>(
   {
+    title: String,
     student: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Student",
+      type: Schema.Types.ObjectId,
+      ref: 'Student',
       required: true,
     },
     marks: [
@@ -46,6 +47,6 @@ const resultSchema = new Schema<ResultType>(
   { timestamps: true }
 );
 
-const Result = mongoose.model("Result", resultSchema);
+const Result = model('Result', resultSchema);
 
 export default Result;

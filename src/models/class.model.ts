@@ -1,7 +1,7 @@
-import mongoose, { Schema, Document } from "mongoose";
-import type { ClassType } from "@/types/model";
+import mongoose, { Schema } from 'mongoose';
+import type { ClassSchemaType } from '@/types/model';
 
-const classSchema = new Schema<ClassType>(
+const classSchema = new Schema<ClassSchemaType>(
   {
     className: String,
     section: {
@@ -13,13 +13,20 @@ const classSchema = new Schema<ClassType>(
       required: false,
     },
     classTeacher: {
+      //has one class teacher
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Teacher",
+      ref: 'Teacher',
+    },
+    organization: {
+      //belongs to one organization
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Organization',
     },
     students: [
+      //has many students
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Student",
+        ref: 'Student',
       },
     ],
   },
@@ -27,6 +34,6 @@ const classSchema = new Schema<ClassType>(
 );
 
 // Create model
-const Class = mongoose.model("Class", classSchema);
+const Class = mongoose.model('Class', classSchema);
 
 export default Class;

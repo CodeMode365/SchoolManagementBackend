@@ -1,8 +1,8 @@
-import mongoose, { Schema, model } from "mongoose";
-import type { EventType } from "@/types/model";
-import { EventStatusType } from "@/constants/enums";
+import { Schema, model } from 'mongoose';
+import type { EventSchemaType } from '@/types/model';
+import { EventStatusType } from '@/config/enums.config';
 
-const eventSchema = new Schema<EventType>(
+const eventSchema = new Schema<EventSchemaType>(
   {
     title: {
       type: String,
@@ -16,7 +16,11 @@ const eventSchema = new Schema<EventType>(
       type: Date,
       required: true,
     },
-    status: EventStatusType,
+    status: {
+      type: String,
+      enum: EventStatusType,
+      required: true,
+    },
     endDate: {
       type: Date,
       required: true,
@@ -26,13 +30,15 @@ const eventSchema = new Schema<EventType>(
       required: true,
     },
     createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      // has one creator
+      type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
     organizer: {
-      type: String,
-      required: true,
+      // has one organization
+      type: Schema.Types.ObjectId,
+      ref: 'Organization',
     },
   },
   {
@@ -40,6 +46,6 @@ const eventSchema = new Schema<EventType>(
   }
 );
 
-const Event = model("Event", eventSchema);
+const Event = model('Event', eventSchema);
 
 export default Event;

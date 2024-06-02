@@ -1,8 +1,8 @@
-import mongoose, { Schema, Document } from "mongoose";
-import { GenderType } from "@/constants/enums";
-import type { StudentType } from "@/types/model";
+import { Schema, model } from 'mongoose';
+import { GenderType } from '@/config/enums.config';
+import type { StudentSchemaType } from '@/types/model';
 
-const studentSchema = new Schema<StudentType>(
+const studentSchema = new Schema<StudentSchemaType>(
   {
     firstName: {
       type: String,
@@ -20,29 +20,45 @@ const studentSchema = new Schema<StudentType>(
       type: Date,
       required: true,
     },
-    gender: GenderType,
+    gender: {
+      type: String,
+      enum: GenderType,
+      required: true,
+    },
     address: {
       city: String,
       tole: String,
     },
-    contact: {
-      phone: String,
-      email: String,
+    phone: {
+      type: String,
+      required: false,
     },
-    parent: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Parent",
-    },
-    grade: [
+    parents: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Class",
+        type: Schema.Types.ObjectId,
+        ref: 'Parent',
       },
     ],
+    class: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Class',
+      },
+    ],
+    organization: {
+      type: Schema.Types.ObjectId,
+      ref: 'Organization',
+      required: true,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: false,
+    },
   },
   { timestamps: true }
 );
 
-const Student = mongoose.model("Student", studentSchema);
+const Student = model('Student', studentSchema);
 
 export default Student;

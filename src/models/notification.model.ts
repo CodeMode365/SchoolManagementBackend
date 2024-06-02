@@ -1,5 +1,5 @@
-import { PriorityType, StatusType } from "@/constants/enums";
-import { Schema, model } from "mongoose";
+import { PriorityType, StatusType } from '@/config/enums.config';
+import { Schema, model } from 'mongoose';
 
 const notificationSchema = new Schema({
   title: {
@@ -13,7 +13,7 @@ const notificationSchema = new Schema({
   receiver: [
     {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
   ],
@@ -29,7 +29,7 @@ const notificationSchema = new Schema({
   },
   createdBy: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
   createdAt: {
@@ -38,6 +38,6 @@ const notificationSchema = new Schema({
   },
 });
 
-const Notification = model("Notification", notificationSchema);
+const Notification = model('Notification', notificationSchema);
 
 export default Notification;

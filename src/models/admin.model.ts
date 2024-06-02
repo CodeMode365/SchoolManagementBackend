@@ -1,33 +1,24 @@
-import type { AdminType } from "@/types/model";
-import { Schema, model } from "mongoose";
+import type { AdminSchemaType } from '@/types/model';
+import { Schema, model } from 'mongoose';
 
-const adminSchema = new Schema<AdminType>(
+const adminSchema = new Schema<AdminSchemaType>(
   {
-    firstName: {
-      type: String,
-      required: true,
-    },
-    middleName: {
-      type: String,
-      required: false,
-    },
-    lastName: {
-      type: String,
-      required: true,
-    },
+    firstName: String,
+    middleName: String,
+    lastName: String,
     organization: {
       type: Schema.Types.ObjectId,
-      required: true,
+      ref: 'Organization',
     },
-    email: {
+    adminLevel: {
       type: String,
-      required: true,
-      unique: true,
+      enum: ['Admin', 'SubAdmin'],
+      default: 'Admin',
     },
   },
   { timestamps: true }
 );
 
-const Admin = model("Admin", adminSchema);
+const Admin = model('Admin', adminSchema);
 
 export default Admin;
