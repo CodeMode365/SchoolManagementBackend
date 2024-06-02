@@ -1,5 +1,5 @@
 import { AuthService } from '@/services';
-import { Handler, ValChecker } from '@/helpers';
+import { ValChecker } from '@/helpers';
 import type { Request, Response } from 'express';
 
 export const Register = async (req: Request, res: Response) => {

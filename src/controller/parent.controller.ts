@@ -39,7 +39,7 @@ const add = async (req: Request, res: Response) => {
   return res.json(newParent);
 };
 
-const update = async (req: Request, res: Response) => {};
+// const update = async (req: Request, res: Response) => {};
 
 const remove = async (req: Request, res: Response) => {
   const { parentId } = ValChecker.checkMissingFields(['parentId'], req.params);
