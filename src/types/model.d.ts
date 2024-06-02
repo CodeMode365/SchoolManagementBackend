@@ -104,7 +104,7 @@ export interface ParentSchemaType extends Document {
     tole: string;
   };
   phone: string;
-  email: String;
+  email: string;
   // children: ObjectId[];
   user: ObjectId;
   organization: ObjectId;
@@ -186,5 +186,10 @@ export interface RoleSchemaType extends Document {
 
 export interface TokenSchemaType extends Document {
   token: string;
+  user: ObjectId;
+}
+
+export interface AttendanceSchemaType extends Document {
+  status: AttendanceSchemaType;
   user: ObjectId;
 }
