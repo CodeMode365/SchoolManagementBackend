@@ -16,12 +16,6 @@ const validateToken = (token: string) => {
   }
 };
 
-// interface CustomJwtPayload<T extends JwtPayload = JwtPayload> extends T {
-//   userId: string;
-//   roles: AccountType[];
-//   permissions: unknown[];
-// }
-
 export default {
   generateToken,
   validateToken,

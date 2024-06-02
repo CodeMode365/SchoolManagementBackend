@@ -3,7 +3,7 @@ const HttpStatusCode = {
     code: 200,
     description: 'The request has succeeded.',
     type: 'Success',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   },
   CREATED: {
     code: 201,
@@ -17,7 +17,7 @@ const HttpStatusCode = {
     description:
       'The request has been accepted for processing, but the processing has not been completed.',
     type: 'Success',
-    methods: ['POST', 'PUT'],
+    methods: ['POST', 'PUT', 'PATCH'],
   },
   NO_CONTENT: {
     code: 204,
@@ -31,21 +31,21 @@ const HttpStatusCode = {
     description:
       'The server cannot or will not process the request due to an apparent client error.',
     type: 'Client Error',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   },
   UNAUTHORIZED: {
     code: 401,
     description:
       'The request has not been applied because it lacks valid authentication credentials for the target resource.',
     type: 'Client Error',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   },
   FORBIDDEN: {
     code: 403,
     description:
       'The server understood the request, but refuses to authorize it.',
     type: 'Client Error',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   },
   NOT_FOUND: {
     code: 404,
@@ -58,7 +58,7 @@ const HttpStatusCode = {
     description:
       'The method specified in the Request-Line is not allowed for the resource identified by the Request-URI.',
     type: 'Client Error',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   },
   CONFLICT: {
     code: 409,
@@ -71,14 +71,14 @@ const HttpStatusCode = {
     description:
       'The server encountered an unexpected condition that prevented it from fulfilling the request.',
     type: 'Server Error',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   },
   SERVICE_UNAVAILABLE: {
     code: 503,
     description:
       'The server is currently unable to handle the request due to a temporary overload or maintenance of the server.',
     type: 'Server Error',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   },
 };
 
