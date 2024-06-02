@@ -1,6 +1,6 @@
+import { Model, Document } from 'mongoose';
 import { Helper } from '@/helpers';
 import { ApiError } from '@/utils';
-import type { Model } from 'mongoose';
 
 interface iDateFilter {
   startDate?: Date;
@@ -8,9 +8,33 @@ interface iDateFilter {
 }
 
 interface iPageArgs {
-  page?: number;
-  limit?: number;
+  page: number;
+  limit: number;
 }
+
+// Define the basic filter type
+type BasicFilter<T> = Partial<Record<keyof T, T[keyof T]>>;
+
+// Define query operators
+type QueryOperators<T> = {
+  $eq?: T;
+  $ne?: T;
+  $gt?: T;
+  $gte?: T;
+  $lt?: T;
+  $lte?: T;
+  $in?: T[];
+  $nin?: T[];
+  $regex?: RegExp;
+};
+
+// Combine basic filters and operators
+type FilterQuery<T> = {
+  [P in keyof T]?:
+    | T[P]
+    | QueryOperators<T[P]>
+    | Array<T[P] | QueryOperators<T[P]>>;
+};
 
 export default class CrudService<T extends Document> {
   private Model: Model<T>;
@@ -19,16 +43,20 @@ export default class CrudService<T extends Document> {
     this.Model = model;
   }
 
-  public async getAll(pageArgs: iPageArgs, dateFilter?: iDateFilter) {
-    const filters = [];
+  public async getAll(filters: FilterQuery<T>, pageArgs: iPageArgs) {
     const { page, limit } = pageArgs;
-    if (dateFilter?.startDate) filters.push({ $gte: dateFilter.startDate });
-    if (dateFilter?.startDate) filters.push({ $lte: dateFilter.endDate });
-    const data = await this.Model.find({
-      $and: filters,
-      $comment: 'Filter items by date',
-    });
-    return { data, pagination: Helper.pageProvider(data.length, page, limit) };
+    const skip = (page - 1) * limit;
+    const data = await this.Model.aggregate([
+      {
+        $match: {
+          $expr: filters,
+          $comment: 'Filter items by date',
+        },
+      },
+      { $skip: skip },
+      { $limit: limit },
+    ]);
+    return { data, ...Helper.pageProvider(await this.count(), page, limit) };
   }
 
   public async getOne(id: string): Promise<T> {
@@ -37,12 +65,12 @@ export default class CrudService<T extends Document> {
     return item;
   }
 
-  public async add(item: T): Promise<void> {
+  public async add(item: Partial<T>): Promise<void> {
     const newItem = new this.Model(item);
     await newItem.save();
   }
 
-  public async update(id: string, data: T): Promise<T> {
+  public async update(id: string, data: Partial<T>): Promise<T> {
     const newItem = await this.Model.findByIdAndUpdate(id, data, { new: true });
     if (!newItem) throw ApiError.internalError('Failed to save!');
     return newItem;
@@ -55,10 +83,7 @@ export default class CrudService<T extends Document> {
     });
   }
 
-  public async count(dateFilter?: iDateFilter): Promise<number> {
-    const filters = [];
-    if (dateFilter?.startDate) filters.push({ $gte: dateFilter.startDate });
-    if (dateFilter?.startDate) filters.push({ $lte: dateFilter.endDate });
-    return await this.Model.countDocuments({ $and: filters });
+  public async count(): Promise<number> {
+    return await this.Model.countDocuments();
   }
 }
