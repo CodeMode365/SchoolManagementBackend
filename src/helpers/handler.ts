@@ -9,7 +9,7 @@ type AsyncHandler = (
 
 const asyncHandler =
   (fn: AsyncHandler) => (req: Request, res: Response, next: NextFunction) => {
-    Promise.resolve(fn(req, res, next)).catch((e: any) => {
+    Promise.resolve(fn(req, res, next)).catch((e: Error) => {
       logger.error(e.message);
       console.log(e);
       next(e);
