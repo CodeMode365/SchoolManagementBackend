@@ -12,6 +12,7 @@ export enum AttendanceStatusType {
   LEAVE = 'Leave',
   HOLIDAY = 'Holiday',
   SICK_LEAVE = 'Sick Leave',
+  HALF_DAY = 'Half Day',
 }
 
 export enum AccountType {
