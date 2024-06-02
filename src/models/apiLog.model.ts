@@ -36,6 +36,6 @@ const apiLogSchema = new Schema<ApiLogSchemaType>(
   { timestamps: true }
 );
 
-const ApiLog = model('ApiLog', apiLogSchema);
+const ApiLog = model<ApiLogSchemaType>('ApiLog', apiLogSchema);
 
 export default ApiLog;
