@@ -18,7 +18,7 @@ app.use(morganLogger.consoleReqHandler);
 
 Handler.routeWrapper(ApiRoutes);
 app.use('/api/v1', ApiRoutes);
-app.use((err: any, req: Request, res: Response) => {
+app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
   if (err instanceof ApiError) {
     return res.status(err.statusCode).json({ error: err.message });
   }
