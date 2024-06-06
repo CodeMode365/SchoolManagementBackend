@@ -25,14 +25,25 @@ const create = async (req: Request, res: Response) => {
 };
 
 const remove = async (req: Request, res: Response) => {
-  const { apiLogId } = ValChecker.checkMissingFields(['apiLogId'], req.params);
-  await CrudSrv.remove(apiLogId);
+  await CrudSrv.remove(req.params.apiLogId);
   return res.json({ message: 'ApiLog deleted!' });
 };
 
 const update = async (req: Request, res: Response) => {
-  const { apiLogId } = ValChecker.checkMissingFields(['apiLogId'], req.params);
-  const apiLog = await CrudSrv.update(apiLogId, req.body);
+  const { apiLogId } = req.params;
+  const { url, method, status, responseTime, ip, userAgent } =
+    ValChecker.checkMissingFields(
+      ['url', 'method', 'status', 'responseTime', 'ip', 'userAgent'],
+      req.params
+    );
+  const apiLog = await CrudSrv.update(apiLogId, {
+    url,
+    method,
+    status,
+    responseTime,
+    ip,
+    userAgent,
+  });
   return res.json(apiLog);
 };
 
