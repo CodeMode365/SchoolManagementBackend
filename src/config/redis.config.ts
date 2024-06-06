@@ -2,6 +2,15 @@ import { Redis } from 'ioredis';
 
 const redis = new Redis();
 
+// redis.flushall((err, success) => {
+//   //clear all previous keys from all db in redis
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log('Cache cleared!');
+//   }
+// });
+
 redis.on('connecting', () => {
   console.log('Connecting to Redis...');
 });
