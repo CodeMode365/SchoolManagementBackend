@@ -19,11 +19,6 @@ const getById = async (req: Request, res: Response) => {
   return res.json(apiLog);
 };
 
-const create = async (req: Request, res: Response) => {
-  const apiLog = await CrudSrv.create(req.body);
-  return res.json(apiLog);
-};
-
 const remove = async (req: Request, res: Response) => {
   await CrudSrv.remove(req.params.apiLogId);
   return res.json({ message: 'ApiLog deleted!' });
@@ -47,4 +42,4 @@ const update = async (req: Request, res: Response) => {
   return res.json(apiLog);
 };
 
-export default { getAll, getById, update, remove, create };
+export default { getAll, getById, update, remove };

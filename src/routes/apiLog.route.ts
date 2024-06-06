@@ -14,13 +14,6 @@ router.get(
   ApiLogController.getAll
 );
 
-router.post(
-  '/add',
-  can(PERMISSIONS.LOGS.WRITE),
-  cacheMiddleware.clearCache(cacheKey),
-  ApiLogController.create
-);
-
 router.patch(
   '/update/:logId',
   can(PERMISSIONS.LOGS.UPDATE),
