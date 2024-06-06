@@ -324,4 +324,24 @@ export default [
     name: 'ADMIN_DELETE',
     description: 'delete a admin',
   },
+  {
+    _id: new mongoose.Types.ObjectId('6656c700233e2d845c8a0f44'),
+    name: 'ROLE_READ',
+    description: 'read a role',
+  },
+  {
+    _id: new mongoose.Types.ObjectId('6656c700233e2d845c8a0f45'),
+    name: 'ROLE_WRITE',
+    description: 'write a role',
+  },
+  {
+    _id: new mongoose.Types.ObjectId('6656c700233e2d845c8a0f46'),
+    name: 'ROLE_UPDATE',
+    description: 'update a role',
+  },
+  {
+    _id: new mongoose.Types.ObjectId('6656c700233e2d845c8a0f47'),
+    name: 'ROLE_DELETE',
+    description: 'delete a role',
+  },
 ];
