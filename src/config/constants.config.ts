@@ -104,6 +104,12 @@ const PERMISSIONS = {
     UPDATE: 'ADMIN_UPDATE',
     DELETE: 'ADMIN_DELETE',
   },
+  ROLE: {
+    READ: 'ROLE_READ',
+    WRITE: 'ROLE_WRITE',
+    UPDATE: 'ROLE_UPDATE',
+    DELETE: 'ROLE_DELETE',
+  },
 };
 
 const ROLES = {

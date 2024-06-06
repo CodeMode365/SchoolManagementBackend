@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 import { EnumVar } from '@/config';
 import { Role } from '@/models';
-import type { RoleType } from '@/types/model';
+import type { RoleSchemaType } from '@/types/model';
 const { AccountType } = EnumVar;
 
-const roleData: ({ _id: mongoose.Types.ObjectId } | RoleType)[] = [
+const roleData: ({ _id: mongoose.Types.ObjectId } | RoleSchemaType)[] = [
   {
     _id: new mongoose.Types.ObjectId('605f6c9a9a13e72a015b0884'),
     name: AccountType.SUPER_ADMIN,
@@ -74,6 +74,10 @@ const roleData: ({ _id: mongoose.Types.ObjectId } | RoleType)[] = [
       '6656c700233e2d845c8a0f41', //admin write
       '6656c700233e2d845c8a0f42', //admin update
       '6656c700233e2d845c8a0f43', //admin delete
+      '6656c700233e2d845c8a0f44', //role read
+      '6656c700233e2d845c8a0f45', // role write
+      '6656c700233e2d845c8a0f46', // role update
+      '6656c700233e2d845c8a0f47', //role delete
     ],
   },
   {
@@ -135,6 +139,10 @@ const roleData: ({ _id: mongoose.Types.ObjectId } | RoleType)[] = [
       '6656c700233e2d845c8a0f23', //exam delete
       '6656c700233e2d845c8a0f34', //organization read
       '6656c700233e2d845c8a0f40', //admin read
+      '6656c700233e2d845c8a0f44', //role read
+      '6656c700233e2d845c8a0f45', // role write
+      '6656c700233e2d845c8a0f46', // role update
+      '6656c700233e2d845c8a0f47', //role delete
     ],
   },
   {

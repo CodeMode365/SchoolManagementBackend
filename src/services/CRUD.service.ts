@@ -65,7 +65,7 @@ export default class CrudService<T extends Document> {
     return item;
   }
 
-  public async add(item: Partial<T>): Promise<void> {
+  public async create(item: Partial<T>): Promise<void> {
     const newItem = new this.Model(item);
     await newItem.save();
   }
