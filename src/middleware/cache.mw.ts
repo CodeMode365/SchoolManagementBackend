@@ -1,37 +1,64 @@
-import { redis } from '@/config';
+import { logger, redis } from '@/config';
+import { ApiError } from '@/utils';
 import type { NextFunction, Request, Response } from 'express';
 
-const cacheMiddleware = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { originalUrl, method } = req;
-  const key = `${method}:${originalUrl}`;
-  const cachedResponse = await redis.get(key);
-  if (cachedResponse) {
-    return res.json(JSON.parse(cachedResponse));
-  } else {
-    const originalSend = res.send;
-    const originalJson = res.json;
+const getCache = (baseKey: string) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    const { url, method } = req;
+    const key = `${baseKey}:${url.slice(1, url.length)}`;
+    const cachedResponse = await redis.get(key);
+    if (cachedResponse) {
+      return res.json(JSON.parse(cachedResponse));
+    } else {
+      const originalJson = res.json;
 
-    // Override the default res.json method to store the response body in Redis cache
-    // and then call the original res.json method
-    res.json = (body) => {
-      redis.set(key, JSON.stringify(body));
-      redis.expire(key, 60 * 10); //10 minutes
+      // Override the default res.json method to store the response body in Redis cache
+      // and then call the original res.json method
+      res.json = (body) => {
+        redis.set(key, JSON.stringify(body));
+        redis.expire(key, 60 * 10); // 10 minutes
+        return originalJson.call(res, body);
+      };
+    }
+    next();
+  };
+};
+
+const clearCache = (baseKey: string) => {
+  return (_req: Request, res: Response, next: NextFunction) => {
+    const originalJson = res.json;
+    res.json = (body: any) => {
+      const stream = redis.scanStream({ match: `${baseKey}:*` });
+
+      stream.on('data', (keys) => {
+        if (keys.length) {
+          const pipeline = redis.pipeline();
+          keys.forEach((key: string) => {
+            pipeline.del(key);
+          });
+          pipeline.exec((err, results) => {
+            if (err) {
+              logger.error(`Error deleting keys: ${baseKey}:*`, err);
+            } else {
+              logger.info(`Deleted keys: ${baseKey}:*`);
+            }
+          });
+        }
+      });
+
+      stream.on('end', () => {
+        console.log('Completed scanning and deleting keys.');
+      });
+
       return originalJson.call(res, body);
     };
 
-    // Override the default res.send method to store the response body in Redis cache
-    // and then call the original res.send method
-    res.send = (body) => {
-      redis.set(key, body);
-      redis.expire(key, 60 * 10); //10 minutes
-      return originalSend.call(res, body);
-    };
-  }
-  next();
+    next();
+  };
 };
 
-export default cacheMiddleware;
+export default {
+  getCache,
+  clearCache,
+};
+``;
