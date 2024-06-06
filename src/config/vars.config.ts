@@ -33,5 +33,14 @@ export default {
     tn_width: process.env.IK_TN_WIDTH || '50',
     tn_height: process.env.IK_TN_HEIGHT || '50',
   },
+  cacheKey: {
+    teacher: 'teacher',
+    students: 'students',
+    roles: 'roles',
+    attendance: 'attendances',
+    organizations: 'organizations',
+    users: 'users',
+    logs: 'logs',
+  },
   client_url: process.env.CLIENT_URL || 'http://localhost:3000',
 };
