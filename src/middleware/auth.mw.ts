@@ -9,7 +9,7 @@ import type { AccountType } from '@/config/enums.config';
  * @param action - The action that requires authorization.
  * @returns Express middleware function
  */
-const can = (action: string, role: AccountType) => {
+const can = (action: string) => {
   return async (req: Request, _res: Response, next: NextFunction) => {
     if (req.headers.authorization) {
       const token = req.headers.authorization.split(' ')[1];
@@ -18,7 +18,7 @@ const can = (action: string, role: AccountType) => {
 
       const active = await AuthService.isUserActive(userId);
 
-      if (!active || !permissions.includes(action) || !roles.includes(role)) {
+      if (!active || !permissions.includes(action)) {
         return next(ApiError.notAuthorized('Action not authorized.'));
       }
 
