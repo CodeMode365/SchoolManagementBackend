@@ -13,11 +13,7 @@ const getAll = async (req: Request, res: Response) => {
 
 const update = async (req: Request, res: Response) => {
   const { roleId } = ValChecker.checkMissingFields(['roleId'], req.params);
-  const {
-    name,
-    permissions = [],
-    description = '',
-  } = ValChecker.checkMissingFields(
+  const { name, permissions, description } = ValChecker.checkMissingFields(
     ['name', 'permissions', 'description'],
     req.body
   );
@@ -32,11 +28,7 @@ const remove = async (req: Request, res: Response) => {
 };
 
 const create = async (req: Request, res: Response) => {
-  const {
-    name,
-    permissions = [],
-    description = '',
-  } = ValChecker.checkMissingFields(
+  const { name, permissions, description } = ValChecker.checkMissingFields(
     ['name', 'permissions', 'description'],
     req.body
   );
