@@ -1,14 +1,41 @@
+import { vars } from '@/config';
+import { PERMISSIONS } from '@/config/constants.config';
 import { RoleController } from '@/controller';
-import { cacheMiddleware } from '@/middleware';
+import { cacheMiddleware, can } from '@/middleware';
 import { Router } from 'express';
 
 const router = Router();
+const cacheKey = vars.cacheKey.roles;
 
-// Basic CRUD operations
-router.get('/all', cacheMiddleware, RoleController.getAllRoles);
-router.get('/by-name/:roleName', RoleController.getRoleByName);
-router.post('/add', RoleController.createRole);
-router.patch('/update/:roleId', RoleController.updateRole);
-router.delete('/remove/:roleId', RoleController.removeRole);
+router.get(
+  '/all',
+  can(PERMISSIONS.ROLE.READ),
+  cacheMiddleware.getCache(cacheKey),
+  RoleController.getAll
+);
+router.get(
+  '/:roleId',
+  can(PERMISSIONS.ROLE.READ),
+  cacheMiddleware.getCache(cacheKey),
+  RoleController.getById
+);
+router.post(
+  '/add',
+  can(PERMISSIONS.ROLE.WRITE),
+  cacheMiddleware.clearCache(cacheKey),
+  RoleController.create
+);
+router.patch(
+  '/update/:roleId',
+  can(PERMISSIONS.ROLE.UPDATE),
+  cacheMiddleware.clearCache(cacheKey),
+  RoleController.update
+);
+router.delete(
+  '/remove/:roleId',
+  can(PERMISSIONS.ROLE.DELETE),
+  cacheMiddleware.clearCache(cacheKey),
+  RoleController.remove
+);
 
 export default router;
