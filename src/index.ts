@@ -1,18 +1,31 @@
 import '@/config';
-import { morganLogger, logger } from '@/config';
+import express from 'express';
 import ApiRoutes from '@/routes';
-import express, {
-  type NextFunction,
-  type Request,
-  type Response,
-} from 'express';
+import { morganLogger, logger } from '@/config';
 import { ApiError } from '@/utils';
 import { Handler } from '@/helpers';
+import { socket } from '@/config';
+import type { Request, Response, NextFunction } from 'express';
+import cors, { type CorsOptions } from 'cors';
 
 const PORT = process.env.PORT || 4300;
+const allowedOrigins = process.env.CLIENT_URL || '*';
+const corsOptions: CorsOptions = {
+  origin: allowedOrigins === '*' ? '*' : allowedOrigins.split(','),
+  credentials: true,
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'Origin',
+    'X-Requested-With',
+  ],
+};
+
 const app = express();
+const server = socket.initializeSocket(app);
 
 app.use(express.json());
+app.use(cors(corsOptions));
 app.use(morganLogger.dbReqHandler);
 app.use(morganLogger.consoleReqHandler);
 
@@ -34,7 +47,7 @@ app.all('*', (req, res) => {
   return res.status(404).json({ error: 'Route not found!' });
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   logger.info('hello world');
   logger.info(`App listening on: http://localhost:${PORT}`);
 });
