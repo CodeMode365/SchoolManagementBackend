@@ -5,6 +5,7 @@ import { morganLogger, logger } from '@/config';
 import { ApiError } from '@/utils';
 import { Handler } from '@/helpers';
 import { socket } from '@/config';
+import { SocketChannelSetup } from '@/socket';
 import type { Request, Response, NextFunction } from 'express';
 import cors, { type CorsOptions } from 'cors';
 
@@ -23,6 +24,7 @@ const corsOptions: CorsOptions = {
 
 const app = express();
 const server = socket.initializeSocket(app);
+SocketChannelSetup();
 
 app.use(express.json());
 app.use(cors(corsOptions));

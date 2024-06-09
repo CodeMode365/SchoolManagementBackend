@@ -11,10 +11,6 @@ export const initializeSocket = (app: Express): HttpServer => {
   wss.on('connection', (ws: WebSocket) => {
     console.log('A user connected');
 
-    ws.on('message', (message: string) => {
-      console.log('received: %s', message);
-    });
-
     ws.on('close', () => {
       console.log('A user disconnected');
     });
