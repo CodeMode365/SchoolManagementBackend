@@ -5,6 +5,7 @@ type AsyncHandler = (
   req: Request,
   res: Response,
   next: NextFunction
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ) => Promise<any>;
 
 const asyncHandler =
@@ -17,8 +18,10 @@ const asyncHandler =
   };
 
 const routeWrapper = (router: Router) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   router.stack.forEach((layer: any) => {
     if (layer.route) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       layer.route.stack.forEach((layer: any) => {
         layer.handle = asyncHandler(layer.handle);
       });

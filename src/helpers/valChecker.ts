@@ -7,6 +7,7 @@ const checkMissingFields = (fields: string[], body: Record<string, string>) => {
     const errorMessage = `Missing fields: ${missingFields.join(', ')}`;
     throw ApiError.badRequest(errorMessage);
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return pick(body, fields) as Record<string, any>;
 };
 
