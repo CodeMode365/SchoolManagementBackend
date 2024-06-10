@@ -118,3 +118,8 @@ export enum StatusType {
   CANCELLED = 'Cancelled',
   EXPIRED = 'Expired',
 }
+
+export enum Email_Type {
+  RESET_PASSWORD = 'Reset Password',
+  ACCOUNT_REGISTRATION = 'Account Registration',
+}
