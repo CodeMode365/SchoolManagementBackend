@@ -1,13 +1,13 @@
 import nodemailer from 'nodemailer';
 import ApiError from '@/utils/error.utils';
 import getTemplateComponents from './template.utils';
-import type { EnumVar } from '@/config';
+import { vars, type EnumVar } from '@/config';
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.MAIL_USERNAME,
-    pass: process.env.MAIL_PASSWORD,
+    user: vars.mailer.email,
+    pass: vars.mailer.pw,
   },
 });
 
