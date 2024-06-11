@@ -7,11 +7,11 @@ const { Email_Type } = EnumVar;
 const Templates = {
   [Email_Type.ACCOUNT_REGISTRATION]: {
     subject: 'User Registered',
-    html: `${__dirname}/../../assets/mail_templates/confirm_email.html`,
+    html: `${__dirname}/../assets/mail_templates/confirm_email.html`,
   },
   [Email_Type.RESET_PASSWORD]: {
     subject: 'Reset Password',
-    html: `${__dirname}/../../assets/mail_templates/reset_password.html`,
+    html: `${__dirname}/../assets/mail_templates/reset_password.html`,
   },
 };
 
