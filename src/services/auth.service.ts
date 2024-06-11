@@ -9,11 +9,13 @@ import type {
   TeacherSchemaType,
   UserSchemaType,
 } from '@/types/model';
-import { vars } from '@/config';
+import { EnumVar, vars } from '@/config';
 import { Token, User } from '@/models';
-import { RoleService } from '.';
 import { ApiError, HashUtils, TokenUtils } from '@/utils';
 import { AccountStatusType, AccountType } from '@/config/enums.config';
+import sendEmail from '@/utils/mail.utils';
+import CrudService from './CRUD.service';
+import roleService from './role.service';
 
 const USER_STATUS_EXCEPTIONS: Record<string, string> = {};
 USER_STATUS_EXCEPTIONS[AccountStatusType.ACTIVE] =
@@ -22,6 +24,8 @@ USER_STATUS_EXCEPTIONS[AccountStatusType.BLOCKED] = 'Account is banned.';
 USER_STATUS_EXCEPTIONS[AccountStatusType.INACTIVE] = 'Account is deactivated.';
 USER_STATUS_EXCEPTIONS[AccountStatusType.PENDING] = 'Account is not verified.';
 USER_STATUS_EXCEPTIONS[AccountStatusType.DELETED] = 'Account has been deleted.';
+
+const UserSrv = new CrudService<UserSchemaType>(User);
 
 const getRolesAndPermissions = (data: RoleSchemaType[]) => {
   let ps: unknown[] = [];
@@ -73,12 +77,13 @@ const register = async (payload: {
   email: string;
   password: string;
   username: string;
-  role: RoleSchemaType;
+  role: string;
 }) => {
-  const { email } = payload;
+  const { email, role } = payload;
   const user = await User.findOne().where({ email });
   if (user) throw ApiError.alreadyExists('Email already exists');
-  const userRoleId = await RoleService.getRoleIdByName(AccountType.STUDENT);
+  const regRole = AccountType[role.toUpperCase() as keyof typeof AccountType];
+  const userRoleId = await roleService.getRoleIdByName(regRole);
   if (!userRoleId) throw ApiError.notFound('Role not found');
   const encPass = HashUtils.hashPassword(payload.password);
   const newUser = new User({
@@ -97,7 +102,9 @@ const register = async (payload: {
     token: verificationToken,
     user: newUser._id as string,
   }).save();
-  // sendEmail(newUser.email, EMAIL_TYPES.CONFIRM_EMAIL, { verificationLink });
+  sendEmail(newUser.email, EnumVar.Email_Type.ACCOUNT_REGISTRATION, {
+    verificationLink,
+  });
   return {
     token: { verifyToken: newToken.token },
     user: omit(newUser.toJSON(), ['password']),
@@ -114,7 +121,7 @@ const forgetPassword = async (payload: { email: string }) => {
     vars.jwt.verify_expiry
   );
   const resetLink = `${vars.client_url}/reset-password?token=${verificationToken}&user=${user.email}`;
-  // sendEmail(user.email, EMAIL_TYPES.RESET_PASSWORD, { resetLink });
+  sendEmail(user.email, EnumVar.Email_Type.RESET_PASSWORD, { resetLink });
 };
 
 const resetPassword = async (payload: {
