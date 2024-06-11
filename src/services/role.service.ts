@@ -1,6 +1,6 @@
 import type { AccountType } from '@/config/enums.config';
 import { Role } from '@/models';
-import type { RoleType } from '@/types/model';
+import type { RoleSchemaType } from '@/types/model';
 import { ApiError } from '@/utils';
 
 const getRoles = async () => {
@@ -8,7 +8,7 @@ const getRoles = async () => {
   return roles;
 };
 
-const createRole = async (payload: RoleType) => {
+const createRole = async (payload: RoleSchemaType) => {
   const role = new Role(payload);
   await role.save();
   return role;
@@ -30,7 +30,7 @@ const deleteOneRole = async (id: string) => {
   return role;
 };
 
-const updateOneRole = async (id: string, payload: RoleType) => {
+const updateOneRole = async (id: string, payload: RoleSchemaType) => {
   const role = await Role.findByIdAndUpdate(id, payload, {
     new: true,
   }).populate('permissions');
