@@ -190,6 +190,6 @@ export interface TokenSchemaType extends Document {
 }
 
 export interface AttendanceSchemaType extends Document {
-  status: AttendanceSchemaType;
+  status: AttendanceStatusType;
   user: ObjectId;
 }
