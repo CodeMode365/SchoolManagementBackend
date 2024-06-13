@@ -1,10 +1,24 @@
-import { AttendanceService } from '@/services';
-import { ValChecker } from '@/helpers';
+import { AttendanceService, CrudService } from '@/services';
+import { Helper, ValChecker } from '@/helpers';
 import type { Request, Response } from 'express';
 import type { AttendanceSchemaType } from '@/types/model';
+import { Attendance } from '@/models';
+import type { FilterQuery } from '@/services/CRUD.service';
+import { AttendanceStatusType } from '@/config/enums.config';
+
+const CrudSrv = new CrudService<AttendanceSchemaType>(Attendance);
 
 const getAll = async (req: Request, res: Response) => {
-  const attendances = await AttendanceService.getAll();
+  const { userId, attendanceId, status } = req.params;
+  const filters: FilterQuery<AttendanceSchemaType> = {};
+
+  const attendances = await CrudSrv.getAll(
+    {},
+    {
+      page: 0,
+      limit: 0,
+    }
+  );
   return res.json(attendances);
 };
 
