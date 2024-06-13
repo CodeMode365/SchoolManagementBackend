@@ -29,7 +29,7 @@ type QueryOperators<T> = {
 };
 
 // Combine basic filters and operators
-type FilterQuery<T> = {
+export type FilterQuery<T> = {
   [P in keyof T]?:
     | T[P]
     | QueryOperators<T[P]>
