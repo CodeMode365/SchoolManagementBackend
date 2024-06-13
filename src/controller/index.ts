@@ -4,3 +4,6 @@ export { default as ParentController } from './parent.controller';
 export { default as AttendanceController } from './attendance.controller';
 export { default as ApiLogController } from './apiLog.controller';
 export { default as RoleController } from './role.controller';
+export { default as EventController } from './event.controller';
+export { default as BillController } from './bill.controller';
+export { default as ClassController } from './class.controller';
