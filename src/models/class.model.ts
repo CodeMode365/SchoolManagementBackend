@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import type { ClassSchemaType } from '@/types/model';
 
 const classSchema = new Schema<ClassSchemaType>(
@@ -9,31 +9,24 @@ const classSchema = new Schema<ClassSchemaType>(
       required: false,
     },
     monitor: {
-      type: String,
-      required: false,
+      type: Schema.Types.ObjectId,
+      ref: 'Student',
     },
     classTeacher: {
       //has one class teacher
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Teacher',
     },
     organization: {
       //belongs to one organization
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Organization',
     },
-    students: [
-      //has many students
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Student',
-      },
-    ],
   },
   { timestamps: true }
 );
 
 // Create model
-const Class = mongoose.model('Class', classSchema);
+const Class = model('Class', classSchema);
 
 export default Class;
