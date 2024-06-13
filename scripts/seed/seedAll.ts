@@ -7,10 +7,10 @@ const seedAll = async () => {
     await seedData('role', RoleData);
     await seedData('user', UserData);
     console.log('All seeding completed successfully');
-    process.exit(0);
   } catch (err) {
     console.error('Seeding failed:', err);
-    process.exit(1);
+  } finally {
+    process.exit();
   }
 };
 
