@@ -1,7 +1,8 @@
 import { AttendanceStatusType } from '@/config/enums.config';
+import type { AttendanceSchemaType } from '@/types/model';
 import { model, Schema } from 'mongoose';
 
-const attendanceSchema = new Schema(
+const attendanceSchema = new Schema<AttendanceSchemaType>(
   {
     status: {
       type: String,
