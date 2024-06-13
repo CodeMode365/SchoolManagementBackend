@@ -22,6 +22,7 @@ async function cleanDb() {
     console.error('Error connecting to the database:', error);
   } finally {
     dbConnection.close();
+    process.exit();
   }
 }
 
