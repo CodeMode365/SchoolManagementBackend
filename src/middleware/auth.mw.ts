@@ -4,6 +4,16 @@ import { ApiError, TokenUtils } from '@/utils';
 import { AuthService } from '@/services';
 import type { AccountType } from '@/config/enums.config';
 
+declare global {
+  namespace Express {
+    interface Request {
+      userId: string;
+      userRoles: AccountType[];
+      userPermissions: string[];
+    }
+  }
+}
+
 /**
  * Middleware function to check user authorization based on JWT token.
  * @param action - The action that requires authorization.
@@ -22,9 +32,9 @@ const can = (action: string) => {
         return next(ApiError.notAuthorized('Action not authorized.'));
       }
 
-      req.body.userId = userId;
-      req.body.userRoles = roles;
-      req.body.userPermissions = permissions;
+      req.userId = userId;
+      req.userRoles = roles;
+      req.userPermissions = permissions;
       return next();
     } else {
       next(ApiError.notAuthorized('Invalid access token'));
