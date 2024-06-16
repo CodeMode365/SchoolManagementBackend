@@ -2,14 +2,21 @@
   "swagger": "2.0",
   "info": {
     "title": "Backend API",
-    "description": "Api Documentation",
+    "description": "API Documentation",
     "version": "0.0.1"
   },
   "host": "localhost:4300/api/v1",
   "basePath": "/",
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "scheme": "bearer",
+      "bearerFormat": "JWT"
+    }
+  },
   "paths": {
     "/auth/register": {
       "post": {
@@ -18,7 +25,17 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
       }
     },
     "/auth/login": {
@@ -28,7 +45,17 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
       }
     },
     "/auth/forget-password": {
@@ -38,7 +65,17 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
       }
     },
     "/auth/reset-password": {
@@ -48,7 +85,17 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
       }
     },
     "/auth/change-password": {
@@ -58,7 +105,17 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
       }
     },
     "/auth/me": {
@@ -96,7 +153,17 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
       }
     },
     "/students/update/{studentId}": {
@@ -214,7 +281,17 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
       }
     },
     "/students/bulk-delete": {
@@ -280,7 +357,17 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
       }
     },
     "/parents/remove/{parentId}": {
@@ -354,7 +441,17 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
       }
     },
     "/attendances/remove/{attendanceId}": {
@@ -456,7 +553,17 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
       }
     },
     "/roles/update/{roleId}": {
@@ -512,7 +619,17 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
       }
     },
     "/events/update/{eventId}": {
@@ -568,7 +685,17 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
       }
     },
     "/bills/update/{billId}": {
@@ -642,7 +769,17 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
       }
     },
     "/classes/update/{classId}": {
@@ -679,6 +816,13 @@
             "description": ""
           }
         }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ObjectSchema": {
+        "type": "object"
       }
     }
   }
