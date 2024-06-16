@@ -1,7 +1,7 @@
 import '@/config';
 import express from 'express';
 import ApiRoutes from '@/routes';
-import { morganLogger, logger } from '@/config';
+import { morganLogger, logger, Swagger } from '@/config';
 import { ApiError } from '@/utils';
 import { Handler } from '@/helpers';
 import { socket } from '@/config';
@@ -30,6 +30,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use(morganLogger.dbReqHandler);
 app.use(morganLogger.consoleReqHandler);
+app.use('/api/docs', Swagger.swaggerUI, Swagger.swaggerDocs);
 
 Handler.routeWrapper(ApiRoutes);
 app.use(process.env.BASE_URL!, ApiRoutes);
@@ -52,4 +53,5 @@ app.all('*', (req, res) => {
 server.listen(PORT, () => {
   logger.info('hello world');
   logger.info(`App listening on: http://localhost:${PORT}`);
+  logger.info(`App listening on: http://localhost:${PORT}/api/docs`);
 });

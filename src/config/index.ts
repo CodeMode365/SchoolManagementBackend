@@ -6,3 +6,4 @@ export { default as redis } from './redis.config';
 // export { default as writeStream } from './writeStream.config';
 export { default as socket } from './socket.config';
 export * as EnumVar from './enums.config';
+export * as Swagger from './swagger.config';
