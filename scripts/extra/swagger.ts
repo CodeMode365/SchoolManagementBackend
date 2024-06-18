@@ -19,6 +19,11 @@ const doc = {
       bearerFormat: 'JWT',
     },
   },
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
 };
 
 const outputFile = resolve(__dirname, '../../src/swagger.docs.json');
@@ -30,8 +35,28 @@ swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
   const fileContent = fs.readFileSync(outputFile, 'utf8');
   const swaggerDocs = JSON.parse(fileContent);
 
+  // Define the query param schema
+  const filterParam = {
+    name: 'filter',
+    in: 'query',
+    required: false,
+    type: 'object',
+  };
+
+  // Add filter param to all routes
+  Object.keys(swaggerDocs.paths).forEach((route) => {
+    const methods = ['get', 'put', 'delete', 'post', 'patch'];
+    methods.forEach((method) => {
+      if (swaggerDocs.paths[route][method]) {
+        swaggerDocs.paths[route][method].parameters =
+          swaggerDocs.paths[route][method].parameters || [];
+        swaggerDocs.paths[route][method].parameters.push(filterParam);
+      }
+    });
+  });
+
   // Define the body parameter schema
-  const param = {
+  const bodyParam = {
     name: 'body',
     in: 'body',
     required: true,
@@ -53,7 +78,7 @@ swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
     if (swaggerDocs.paths[route].post) {
       swaggerDocs.paths[route].post.parameters =
         swaggerDocs.paths[route].post.parameters || [];
-      swaggerDocs.paths[route].post.parameters.push(param);
+      swaggerDocs.paths[route].post.parameters.push(bodyParam);
     }
   });
 

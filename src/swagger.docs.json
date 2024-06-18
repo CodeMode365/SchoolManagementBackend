@@ -7,7 +7,9 @@
   },
   "host": "localhost:4300/api/v1",
   "basePath": "/",
-  "schemes": ["http"],
+  "schemes": [
+    "http"
+  ],
   "securityDefinitions": {
     "bearerAuth": {
       "type": "apiKey",
@@ -27,6 +29,12 @@
           }
         },
         "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
           {
             "name": "body",
             "in": "body",
@@ -48,6 +56,12 @@
         },
         "parameters": [
           {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -67,6 +81,12 @@
           }
         },
         "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
           {
             "name": "body",
             "in": "body",
@@ -88,6 +108,12 @@
         },
         "parameters": [
           {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -108,6 +134,12 @@
         },
         "parameters": [
           {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -125,7 +157,15 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ]
       }
     },
     "/students/{studentId}": {
@@ -137,6 +177,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -155,6 +201,12 @@
           }
         },
         "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
           {
             "name": "body",
             "in": "body",
@@ -175,6 +227,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -193,6 +251,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -211,6 +275,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -229,6 +299,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -247,6 +323,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -265,6 +347,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -284,6 +372,12 @@
         },
         "parameters": [
           {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -301,7 +395,15 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ]
       }
     },
     "/parents/all": {
@@ -311,7 +413,15 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ]
       }
     },
     "/parents/by-org/{orgId}": {
@@ -323,6 +433,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -341,6 +457,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -359,6 +481,12 @@
           }
         },
         "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
           {
             "name": "body",
             "in": "body",
@@ -379,6 +507,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -395,43 +529,15 @@
           "default": {
             "description": ""
           }
-        }
-      }
-    },
-    "/attendances/by-org/{orgId}": {
-      "get": {
-        "description": "",
+        },
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "required": true,
-            "type": "string"
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/attendances/by-user/{userId}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
+        ]
       }
     },
     "/attendances/add": {
@@ -443,6 +549,12 @@
           }
         },
         "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
           {
             "name": "body",
             "in": "body",
@@ -463,6 +575,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -479,7 +597,15 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ]
       }
     },
     "/apiLogs/update/{logId}": {
@@ -491,6 +617,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -509,6 +641,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -525,7 +663,15 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ]
       }
     },
     "/roles/{roleId}": {
@@ -537,6 +683,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -555,6 +707,12 @@
           }
         },
         "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
           {
             "name": "body",
             "in": "body",
@@ -575,6 +733,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -593,6 +757,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -609,7 +779,15 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ]
       }
     },
     "/events/add": {
@@ -621,6 +799,12 @@
           }
         },
         "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
           {
             "name": "body",
             "in": "body",
@@ -641,6 +825,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -659,6 +849,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -675,7 +871,15 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ]
       }
     },
     "/bills/add": {
@@ -687,6 +891,12 @@
           }
         },
         "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
           {
             "name": "body",
             "in": "body",
@@ -707,6 +917,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -725,6 +941,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -741,7 +963,15 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ]
       }
     },
     "/classes/{classId}": {
@@ -753,6 +983,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -771,6 +1007,12 @@
           }
         },
         "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
           {
             "name": "body",
             "in": "body",
@@ -791,6 +1033,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -809,6 +1057,12 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
           }
         ],
         "responses": {
@@ -819,6 +1073,11 @@
       }
     }
   },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
   "components": {
     "schemas": {
       "ObjectSchema": {
