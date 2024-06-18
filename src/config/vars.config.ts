@@ -13,8 +13,9 @@ export default {
   db: process.env.MONGO_URI || 'mongodb://localhost:27017/SchoolDb',
   jwt: {
     jwt_secret: process.env.JWT_SECRET || 'akjjkasd',
-    login_expiry: process.env.JWT_EXPIRY || '1d',
-    verify_expiry: process.env.JWT_VERIFY_EXPIRY || '1d',
+    login_expiry: process.env.JWT_EXPIRY || '5d',
+    refresh_expiry: process.env.JWT_REFRESH_TOKEN_EXPIRY || '30d',
+    verify_expiry: process.env.JWT_VERIFY_EXPIRY || '1h',
   },
   mailer: {
     email: process.env.MAILER_EMAIL,
