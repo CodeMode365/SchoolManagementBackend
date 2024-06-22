@@ -25,9 +25,16 @@ const userSchema = new Schema<UserSchemaType>(
       enum: AccountStatusType,
       default: AccountStatusType.ACTIVE,
     },
+    organization: {
+      type: Schema.Types.ObjectId,
+      ref: 'Organization',
+      required: true,
+    },
   },
   { timestamps: true }
 );
+
+userSchema.index({ username: 'text', email: 'text' });
 
 const User = model('User', userSchema);
 
