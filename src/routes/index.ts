@@ -7,6 +7,8 @@ import { default as RoleRoute } from './role.route';
 import { default as EventRoute } from './event.route';
 import { default as BillRoute } from './bill.route';
 import { default as ClassRoute } from './class.route';
+import { default as SessionRoute } from './session.route';
+import { default as TokenRoute } from './token.route';
 import { Router } from 'express';
 
 const router = Router();
@@ -20,5 +22,7 @@ router.use('/roles', RoleRoute);
 router.use('/events', EventRoute);
 router.use('/bills', BillRoute);
 router.use('/classes', ClassRoute);
+router.use('/sessions', SessionRoute);
+router.use('/tokens', TokenRoute);
 
 export default router;
