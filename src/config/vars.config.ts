@@ -42,6 +42,12 @@ export default {
     organizations: 'organizations',
     users: 'users',
     logs: 'logs',
+    fees: 'fees',
+    classes: 'classes',
+    exams: 'exams',
+    complaints: 'complaints',
+    tokens: 'tokens',
+    sessions: 'sessions',
   },
   client_url: process.env.CLIENT_URL || 'http://localhost:3000',
 };
