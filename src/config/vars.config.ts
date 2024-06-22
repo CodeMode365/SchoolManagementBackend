@@ -28,9 +28,9 @@ export default {
     image_fit: process.env.IMAGE_FIT || 'outside',
   },
   ik: {
-    public_key: process.env.IK_PUBKEY,
-    private_key: process.env.IK_PKEY,
-    url: process.env.IK_URL,
+    public_key: process.env.IK_PUBKEY!,
+    private_key: process.env.IK_PKEY!,
+    url: process.env.IK_URL!,
     tn_width: process.env.IK_TN_WIDTH || '50',
     tn_height: process.env.IK_TN_HEIGHT || '50',
   },
