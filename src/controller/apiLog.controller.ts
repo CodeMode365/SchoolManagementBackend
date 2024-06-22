@@ -3,14 +3,27 @@ import { ApiLog } from '@/models';
 import { CrudService } from '@/services';
 import type { ApiLogSchemaType } from '@/types/model';
 import type { Request, Response } from 'express';
+import moment from 'moment';
+import type { FilterQuery } from 'mongoose';
 
 const CrudSrv = new CrudService<ApiLogSchemaType>(ApiLog);
 
 const getAll = async (req: Request, res: Response) => {
-  const filters = req.query.filters
-    ? JSON.parse(req.query.filters as string)
-    : {};
-  const apiLogs = await CrudSrv.getAll(filters, { page: 1, limit: 10 });
+  const { filter } = req.query;
+  const { startDate, endDate, page, limit, method, search } = JSON.parse(
+    filter as string
+  );
+
+  const filters: FilterQuery<ApiLogSchemaType> = {
+    $and: [
+      startDate && { createdAt: { $gte: new Date(startDate) } },
+      endDate && { createdAt: { $lte: new Date(endDate) } },
+      method && { method },
+      search && { $text: { $search: search } },
+    ].filter(Boolean),
+  };
+
+  const apiLogs = await CrudSrv.getAll(filters, { page, limit });
   return res.json(apiLogs);
 };
 
@@ -26,19 +39,11 @@ const remove = async (req: Request, res: Response) => {
 
 const update = async (req: Request, res: Response) => {
   const { apiLogId } = req.params;
-  const { url, method, status, responseTime, ip, userAgent } =
-    ValChecker.checkMissingFields(
-      ['url', 'method', 'status', 'responseTime', 'ip', 'userAgent'],
-      req.params
-    );
-  const apiLog = await CrudSrv.update(apiLogId, {
-    url,
-    method,
-    status,
-    responseTime,
-    ip,
-    userAgent,
-  });
+  const payload = ValChecker.checkMissingFields(
+    ['url', 'method', 'status', 'responseTime', 'ip', 'userAgent'],
+    req.params
+  );
+  const apiLog = await CrudSrv.update(apiLogId, payload);
   return res.json(apiLog);
 };
 

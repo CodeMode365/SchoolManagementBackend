@@ -5,11 +5,12 @@ const router = Router();
 
 // Basic CRUD operations
 router.get('/all', AttendanceController.getAll);
-router.get('/by-org/:orgId', AttendanceController.getByOrg);
-router.get('/by-user/:userId', AttendanceController.getByUser);
+// router.get('/by-org/:orgId', AttendanceController.getByOrg);
+// router.get('/by-user/:userId', AttendanceController.getByUser);
 router.post('/add', AttendanceController.add);
 // router.patch('/update/:attendanceId', AttendanceController.update);
 router.delete('/remove/:attendanceId', AttendanceController.remove);
+// router.patch('/update/:attendanceId', AttendanceController.update);
 
 // Bulk operations
 // router.post('/bulk-add', AttendanceController.bulkAdd);

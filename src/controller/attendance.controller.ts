@@ -1,24 +1,28 @@
 import { AttendanceService, CrudService } from '@/services';
 import { Helper, ValChecker } from '@/helpers';
 import type { Request, Response } from 'express';
-import type { AttendanceSchemaType } from '@/types/model';
 import { Attendance } from '@/models';
-import type { FilterQuery } from '@/services/CRUD.service';
-import { AttendanceStatusType } from '@/config/enums.config';
+import type { FilterQuery } from 'mongoose';
+import type { AttendanceSchemaType } from '@/types/model';
 
 const CrudSrv = new CrudService<AttendanceSchemaType>(Attendance);
 
 const getAll = async (req: Request, res: Response) => {
-  const { userId, attendanceId, status } = req.params;
-  const filters: FilterQuery<AttendanceSchemaType> = {};
-
-  const attendances = await CrudSrv.getAll(
-    {},
-    {
-      page: 0,
-      limit: 0,
-    }
+  const { orgId, userId, startDate, endDate, status, page, limit } = JSON.parse(
+    req.query.filter as string
   );
+
+  const filters: FilterQuery<AttendanceSchemaType> = {
+    $and: [
+      orgId && { user: { organization: orgId } },
+      userId && { user: userId },
+      startDate && { createdAt: { $gte: startDate } },
+      endDate && { createdAt: { $lte: endDate } },
+      status && status,
+    ].filter(Boolean),
+  };
+
+  const attendances = await CrudSrv.getAll(filters, { page, limit });
   return res.json(attendances);
 };
 

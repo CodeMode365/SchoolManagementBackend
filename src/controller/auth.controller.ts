@@ -1,6 +1,7 @@
 import { AuthService } from '@/services';
 import { ValChecker } from '@/helpers';
 import type { Request, Response } from 'express';
+import userService from '@/services/user.service';
 
 export const Register = async (req: Request, res: Response) => {
   const { username, password, email, role } = ValChecker.checkMissingFields(
@@ -13,7 +14,7 @@ export const Register = async (req: Request, res: Response) => {
 
 const LogIn = async (req: Request, res: Response) => {
   const { email, password, username } = ValChecker.checkMissingFields(
-    ['email', 'username', 'password'],
+    ['email', 'password'],
     req.body
   );
   const user = await AuthService.login({ email, password, username });
@@ -46,7 +47,7 @@ const changePassword = async (req: Request, res: Response) => {
 };
 
 const myInfo = async (req: Request, res: Response) => {
-  const { userId } = ValChecker.checkMissingFields(['userId'], req.body);
+  const userId = req.userId;
   const user = await AuthService.myInfo(userId);
   return res.json(user);
 };
@@ -62,10 +63,21 @@ const updateMyInfo = async (req: Request, res: Response) => {
   );
   return res.json(user);
 };
+const refreshToken = async (req: Request, res: Response) => {
+  const { refreshToken } = ValChecker.checkMissingFields(
+    ['refreshToken'],
+    req.body
+  );
+  const authToken = await AuthService.refreshToken(refreshToken);
+  return res.json(refreshToken);
+};
+const logout = async (req: Request, res: Response) => {
+  await AuthService.logout(req.userId);
+  return res.json({ message: 'Logout Successful!' });
+};
 /*
 const getAllSession = () => {};
 const deleteSession = () => {};
-const refreshToken = () => {};
 const revokeToken = () => {};
 const setup2Fa = () => {};
 const verify2Fa = () => {};
@@ -79,4 +91,6 @@ export default {
   changePassword,
   myInfo,
   updateMyInfo,
+  refreshToken,
+  logout,
 };
