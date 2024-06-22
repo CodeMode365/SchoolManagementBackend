@@ -1,8 +1,10 @@
+import { ExamType } from '@/config/enums.config';
+import type { ExamSchemaType } from '@/types/model';
 import { model, Schema } from 'mongoose';
 
-const examSchema = new Schema(
+const examSchema = new Schema<ExamSchemaType>(
   {
-    name: {
+    title: {
       type: String,
       required: true,
     },
@@ -18,6 +20,11 @@ const examSchema = new Schema(
       type: Date,
       required: true,
     },
+    examType: {
+      type: String,
+      enum: ExamType,
+      default: ExamType.EXAM,
+    },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -27,20 +34,6 @@ const examSchema = new Schema(
       ref: 'Organization',
       required: true,
     },
-    students: [
-      //includes many students
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Student',
-      },
-    ],
-    results: [
-      //has many students result
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Result',
-      },
-    ],
   },
   { timestamps: true }
 );

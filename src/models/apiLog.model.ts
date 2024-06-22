@@ -36,6 +36,13 @@ const apiLogSchema = new Schema<ApiLogSchemaType>(
   { timestamps: true }
 );
 
+apiLogSchema.index({
+  url: 'text',
+  method: 'text',
+  responseTime: 'text',
+  ip: 'text',
+});
+
 const ApiLog = model<ApiLogSchemaType>('ApiLog', apiLogSchema);
 
 export default ApiLog;
