@@ -1,7 +1,5 @@
-// import swaggerJsDoc from 'swagger-jsdoc';
 import docs from '../swagger.docs.json';
 import swaggerUi from 'swagger-ui-express';
-import path from 'path';
 
 // const options = {
 //   definition: {
@@ -16,7 +14,5 @@ import path from 'path';
 // };
 // const specs = swaggerJsDoc(options);
 
-// export const swaggerDocs = swaggerJsDoc(options);
 export const swaggerUI = swaggerUi.serve;
-// export const swaggerDocs = swaggerUi.setup(specs);
 export const swaggerDocs = swaggerUi.setup(docs);

@@ -13,7 +13,6 @@ const getAll = async (req: Request, res: Response) => {
   const { startDate, endDate, page, limit, method, search } = JSON.parse(
     filter as string
   );
-
   const filters: FilterQuery<ApiLogSchemaType> = {
     $and: [
       startDate && { createdAt: { $gte: new Date(startDate) } },

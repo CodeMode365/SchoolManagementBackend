@@ -6,7 +6,7 @@ import type { Request, Response } from 'express';
 
 const CrudSrv = new CrudService<ResultSchemaType>(Result);
 
-export const getAll = async (req: Request, res: Response) => {
+const getAll = async (req: Request, res: Response) => {
   const { orgId } = req.query;
   if (!orgId) {
     return res.status(400).json({ message: 'orgId is required' });
@@ -14,12 +14,12 @@ export const getAll = async (req: Request, res: Response) => {
   return CrudSrv.getAll({}, { page: 1, limit: 10 });
 };
 
-export const getById = async (req: Request, res: Response) => {
+const getById = async (req: Request, res: Response) => {
   const { resultId } = req.params;
   return CrudSrv.getOne(resultId);
 };
 
-export const create = async (req: Request, res: Response) => {
+const create = async (req: Request, res: Response) => {
   const { studentId, ...rest } = req.body;
   if (!studentId) {
     return res.status(400).json({ message: 'studentId is required' });
@@ -27,7 +27,7 @@ export const create = async (req: Request, res: Response) => {
   return CrudSrv.create({ studentId, ...rest });
 };
 
-export const update = async (req: Request, res: Response) => {
+const update = async (req: Request, res: Response) => {
   const { resultId } = req.params;
   const { studentId, ...rest } = req.body;
   if (!studentId) {
@@ -36,7 +36,10 @@ export const update = async (req: Request, res: Response) => {
   return CrudSrv.update(resultId, { studentId, ...rest });
 };
 
-export const remove = async (req: Request, res: Response) => {
+const remove = async (req: Request, res: Response) => {
   const { resultId } = req.params;
   return CrudSrv.remove(resultId);
 };
+
+
+export default { getAll, getById, create, update, remove };

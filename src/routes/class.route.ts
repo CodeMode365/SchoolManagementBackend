@@ -1,9 +1,10 @@
-import e, { Router } from 'express';
+import { Router } from 'express';
 import { ClassController } from '@/controller';
 import { can } from '@/middleware';
 
 const router = Router();
 
+// Basic CRUD operations
 router.get('/all', ClassController.getAll);
 router.get('/:classId', ClassController.getById);
 router.post('/add', ClassController.create);

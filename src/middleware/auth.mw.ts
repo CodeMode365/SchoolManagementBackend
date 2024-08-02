@@ -19,7 +19,7 @@ declare global {
  * @param action - The action that requires authorization.
  * @returns Express middleware function
  */
-const can = (action: string) => {
+const can = (action: string, role?: AccountType) => {
   return async (req: Request, _res: Response, next: NextFunction) => {
     if (req.headers.authorization) {
       const token = req.headers.authorization.split(' ')[1];
@@ -28,6 +28,9 @@ const can = (action: string) => {
 
       const active = await AuthService.isUserActive(userId);
 
+      if (role && !roles.include(role)) {
+        return next(ApiError.notAuthorized('Role not authorized.'));
+      }
       if (!active || !permissions.includes(action)) {
         return next(ApiError.notAuthorized('Action not authorized.'));
       }

@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import type { UserSessionSchemaType } from '@/types/model';
+import { type UserSessionSchemaType } from '@/types/model';
 
 const sessionSchema = new Schema<UserSessionSchemaType>(
   {
@@ -8,22 +8,16 @@ const sessionSchema = new Schema<UserSessionSchemaType>(
       ref: 'User',
       required: true,
     },
-    sessionToken: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    expiresAt: {
-      type: Date,
-    },
+    agent: String,
+    browser: String,
+    ip: String,
+    device: String,
+
   },
   { timestamps: true }
 );
 
-const Session = model('Session', sessionSchema);
+const Session = model<UserSessionSchemaType>('Session', sessionSchema);
 
 export default Session;
+

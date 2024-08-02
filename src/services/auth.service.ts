@@ -7,6 +7,7 @@ import type {
   StaffSchemaType,
   StudentSchemaType,
   TeacherSchemaType,
+  TokenSchemaType,
   UserSchemaType,
 } from '@/types/model';
 import { EnumVar, vars } from '@/config';
@@ -16,6 +17,7 @@ import { AccountStatusType, AccountType } from '@/config/enums.config';
 import sendEmail from '@/utils/mail.utils';
 import CrudService from './CRUD.service';
 import roleService from './role.service';
+import { verify, type JwtPayload } from 'jsonwebtoken';
 
 const USER_STATUS_EXCEPTIONS: Record<string, string> = {};
 USER_STATUS_EXCEPTIONS[AccountStatusType.ACTIVE] =
@@ -26,6 +28,7 @@ USER_STATUS_EXCEPTIONS[AccountStatusType.PENDING] = 'Account is not verified.';
 USER_STATUS_EXCEPTIONS[AccountStatusType.DELETED] = 'Account has been deleted.';
 
 const UserSrv = new CrudService<UserSchemaType>(User);
+const TokenSrv = new CrudService<TokenSchemaType>(Token);
 
 const getRolesAndPermissions = (data: RoleSchemaType[]) => {
   let ps: unknown[] = [];
@@ -33,7 +36,14 @@ const getRolesAndPermissions = (data: RoleSchemaType[]) => {
     ps.push(d.permissions);
     return d.name;
   });
-  ps = [...new Set(ps.flat().map((d: any) => d.name))];
+  console.log(data);
+  ps = [
+    ...new Set(
+      ps.flat().map((d: any) => {
+        return d;
+      })
+    ),
+  ];
   return { rs, ps };
 };
 
@@ -60,7 +70,10 @@ const login = async (payload: {
     roles: rs,
     permissions: ps,
   };
-  const token = TokenUtils.generateToken(tokenPayload, vars.jwt.login_expiry);
+  const [authToken, refreshToken] = [
+    TokenUtils.generateAuthToken(tokenPayload),
+    TokenUtils.generateRefreshToken({ userId: dbUser._id as string }),
+  ];
   return {
     user: {
       ...omit(dbUser.toJSON(), ['password', 'roles']),
@@ -68,7 +81,8 @@ const login = async (payload: {
       permissions: ps,
     },
     token: {
-      verificationToken: token,
+      authToken,
+      refreshToken,
     },
   };
 };
@@ -92,10 +106,7 @@ const register = async (payload: {
     roles: [userRoleId],
   });
   const tokenPayload = { userId: newUser._id as string };
-  const verificationToken = TokenUtils.generateToken(
-    tokenPayload,
-    vars.jwt.verify_expiry
-  );
+  const verificationToken = TokenUtils.generateMailingToken(tokenPayload);
   const verificationLink = `${vars.client_url}/register/verify?token=${verificationToken}&user=${newUser.email}`;
   await newUser.save();
   const newToken = await new Token({
@@ -106,7 +117,7 @@ const register = async (payload: {
     verificationLink,
   });
   return {
-    token: { verifyToken: newToken.token },
+    token: { verifyToken: newToken },
     user: omit(newUser.toJSON(), ['password']),
   };
 };
@@ -116,10 +127,7 @@ const forgetPassword = async (payload: { email: string }) => {
   const user = await User.findOne().where({ email });
   if (!user) throw ApiError.notFound('Email not found');
   const tokenPayload = { userId: user._id as string };
-  const verificationToken = TokenUtils.generateToken(
-    tokenPayload,
-    vars.jwt.verify_expiry
-  );
+  const verificationToken = TokenUtils.generateMailingToken(tokenPayload);
   const resetLink = `${vars.client_url}/reset-password?token=${verificationToken}&user=${user.email}`;
   sendEmail(user.email, EnumVar.Email_Type.RESET_PASSWORD, { resetLink });
 };
@@ -154,16 +162,12 @@ const changePassword = async (payload: {
   await User.findByIdAndUpdate(userId, { password: encPass });
 };
 
-const myInfo = async (payload: { userId: string }) => {
-  const { userId } = payload;
+const myInfo = async (userId: string) => {
   const dbUser = await User.findById(userId);
   if (!dbUser) throw ApiError.notFound('User not found');
-  const { rs, ps } = getRolesAndPermissions(dbUser.roles);
   return {
     user: {
-      ...omit(dbUser.toJSON(), ['password', 'roles']),
-      roles: rs,
-      permissions: ps,
+      ...omit(dbUser.toJSON(), ['password', 'roles', 'createdAt', 'updatedAt']),
     },
   };
 };
@@ -194,6 +198,36 @@ const isUserActive = async (userId: string) => {
   return dbUser?.status === AccountStatusType.ACTIVE;
 };
 
+const logout = async (userId: string) => {
+  await Token.deleteMany().where({ user: userId });
+};
+
+const refreshToken = async (refToken: string) => {
+  const token = await TokenSrv.findOne({ refreshToken: refToken });
+  if (!token) throw ApiError.notFound('Invalid refresh token');
+  const decoded = TokenUtils.validateToken(refToken);
+  if (!decoded) throw ApiError.notFound('Invalid refresh token');
+  const { userId } = decoded.data as JwtPayload;
+  const dbUser = await UserSrv.getOne(userId);
+  if (!dbUser) throw ApiError.notFound('User not found');
+  const { rs, ps } = getRolesAndPermissions(dbUser.roles);
+  const tokenPayload = {
+    userId: dbUser._id as string,
+    roles: rs,
+    permissions: ps,
+  };
+  const authToken = TokenUtils.generateAuthToken(tokenPayload);
+  return authToken;
+};
+
+const verifyPassword = async (userId: string, password: string) => {
+  const dbUser = await User.findById(userId);
+  if (!dbUser) throw ApiError.notFound('User not found');
+  const passCompare = HashUtils.comparePassword(password, dbUser.password);
+  if (!passCompare) throw ApiError.notAuthorized('Invalid password.');
+  return dbUser;
+}
+
 export default {
   register,
   login,
@@ -203,4 +237,7 @@ export default {
   myInfo,
   isUserActive,
   updateMyInfo,
+  logout,
+  refreshToken,
+  verifyPassword
 };

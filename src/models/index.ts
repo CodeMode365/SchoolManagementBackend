@@ -19,3 +19,4 @@ export { default as Admin } from './admin.model';
 export { default as Role } from './role.model';
 export { default as Permission } from './permission.model';
 export { default as Attendance } from './attendance.model';
+export { default as Complaint } from './complaint.model';

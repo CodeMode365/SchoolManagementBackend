@@ -4,19 +4,12 @@ import type { ClassSchemaType } from '@/types/model';
 const classSchema = new Schema<ClassSchemaType>(
   {
     className: String,
-    section: {
-      type: String,
-      required: false,
-    },
-    monitor: {
-      type: Schema.Types.ObjectId,
-      ref: 'Student',
-    },
-    classTeacher: {
-      //has one class teacher
-      type: Schema.Types.ObjectId,
-      ref: 'Teacher',
-    },
+    sections: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'ClassSection',
+      }
+    ],
     organization: {
       //belongs to one organization
       type: Schema.Types.ObjectId,
@@ -25,6 +18,10 @@ const classSchema = new Schema<ClassSchemaType>(
   },
   { timestamps: true }
 );
+
+classSchema.index({
+  className: 'text',
+})
 
 // Create model
 const Class = model('Class', classSchema);

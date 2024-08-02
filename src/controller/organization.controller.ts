@@ -25,9 +25,8 @@ const getById = async (req: Request, res: Response) => {
 const remove = async (req: Request, res: Response) => {
   const { orgId } = req.params;
   await CrudSrv.remove(orgId);
-  return res.json({"Organization removed!"})
+  return res.json({ message: 'Organization removed!' });
 };
-
 
 export default {
   getAll,

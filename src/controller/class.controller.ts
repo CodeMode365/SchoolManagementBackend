@@ -3,16 +3,16 @@ import { Class } from '@/models';
 import { CrudService } from '@/services';
 import type { ClassSchemaType } from '@/types/model';
 import type { Request, Response } from 'express';
+import type { FilterQuery } from 'mongoose';
 
 const CrudSrv = new CrudService<ClassSchemaType>(Class);
 
 const create = async (req: Request, res: Response) => {
   const payload = ValChecker.checkMissingFields(
-    ['className', 'section', 'monitor'],
+    ['className'],
     req.body
   );
-  const { monitor, classTeacher } = req.body;
-  const classData = await CrudSrv.create({ ...payload, monitor, classTeacher });
+  const classData = await CrudSrv.create({ ...payload });
   return res.json(classData);
 };
 
@@ -25,20 +25,23 @@ const remove = async (req: Request, res: Response) => {
 const update = async (req: Request, res: Response) => {
   const { classId } = ValChecker.checkMissingFields(['classId'], req.params);
   const payload = ValChecker.checkMissingFields(
-    ['className', 'section', 'monitor'],
+    ['className'],
     req.body
   );
-  const { monitor, classTeacher } = req.body;
   const classData = await CrudSrv.update(classId, {
     ...payload,
-    monitor,
-    classTeacher,
   });
   return res.json(classData);
 };
 
 const getAll = async (req: Request, res: Response) => {
-  const classes = await CrudSrv.getAll({}, { page: 1, limit: 10 });
+  const { filter } = req.query;
+  const { search, limit = 20, page = 1 } = JSON.parse(filter as string);
+  const query: FilterQuery<ClassSchemaType> = {};
+  if (search && typeof search === 'string') {
+    query.$text = { $search: search };
+  }
+  const classes = await CrudSrv.getAll(query, { page, limit });
   return res.json(classes);
 };
 

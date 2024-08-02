@@ -19,6 +19,7 @@ router.post('/login', AuthController.LogIn);
 
 //password management
 router.post('/forget-password', AuthController.forgetPassword);
+router.post("/verify-password", AuthController.verifyPassword);
 router.post('/reset-password', AuthController.resetPassword);
 router.post('/change-password', AuthController.changePassword);
 

@@ -9,7 +9,7 @@ const cacheKey = vars.cacheKey.logs; // Define the appropriate cache key for api
 
 router.get(
   '/all',
-  can(PERMISSIONS.LOGS.READ),
+  // can(PERMISSIONS.LOGS.READ),
   cacheMiddleware.getCache(cacheKey),
   ApiLogController.getAll
 );

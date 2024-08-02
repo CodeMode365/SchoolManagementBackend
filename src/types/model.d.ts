@@ -69,17 +69,25 @@ export interface BillSchemaType extends Document {
 
 export interface ClassSchemaType extends Document {
   className: string;
-  section?: string;
-  monitor?: ObjectId;
-  classTeacher: ObjectId;
-  students: [ObjectId];
+  sections: ObjectId[]
   organization: ObjectId;
+}
+
+export interface ClassSectionType extends Document {
+  sectionName: string;
+  monitor?: ObjectId | null;
+  classTeacher: ObjectId;
+  teachers: ObjectId[];
+  class: ObjectId;
 }
 
 export interface UserSessionSchemaType extends Document {
   user: ObjectId;
-  sessionToken: string;
-  createdAt: Date;
+  sessionToken: ObjectId;
+  device: string;
+  agent: string;
+  browser: string;
+  ip: string;
   expiresAt?: Date;
 }
 
@@ -127,6 +135,17 @@ export interface ResultSchemaType extends Document {
   examType: ExamType;
 }
 
+export interface ExamSchemaType extends Document {
+  title: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  status: StatusType;
+  createdBy: ObjectId;
+  examType: ExamType;
+  organization: ObjectId;
+}
+
 export interface NotificationSchemaType extends Document {
   title: string;
   content: string;
@@ -158,6 +177,7 @@ export interface UserSchemaType extends Document {
   password: string;
   roles: Schema.Types.Array<ObjectId>;
   status: AccountStatusType;
+  organization: ObjectId;
 }
 
 export interface StaffSchemaType extends Document {
@@ -185,11 +205,19 @@ export interface RoleSchemaType extends Document {
 }
 
 export interface TokenSchemaType extends Document {
-  token: string;
+  authToken: string;
+  refreshToken: string;
   user: ObjectId;
 }
 
 export interface AttendanceSchemaType extends Document {
   status: AttendanceStatusType;
   user: ObjectId;
+}
+
+export interface ComplaintSchemaType extends Document {
+  title: string;
+  description: string;
+  user: ObjectId;
+  organization: ObjectId;
 }
