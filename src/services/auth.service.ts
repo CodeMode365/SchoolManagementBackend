@@ -17,7 +17,8 @@ import { AccountStatusType, AccountType } from '@/config/enums.config';
 import sendEmail from '@/utils/mail.utils';
 import CrudService from './CRUD.service';
 import roleService from './role.service';
-import { verify, type JwtPayload } from 'jsonwebtoken';
+import { type JwtPayload } from 'jsonwebtoken';
+import mongoose from 'mongoose';
 
 const USER_STATUS_EXCEPTIONS: Record<string, string> = {};
 USER_STATUS_EXCEPTIONS[AccountStatusType.ACTIVE] =
@@ -163,11 +164,17 @@ const changePassword = async (payload: {
 };
 
 const myInfo = async (userId: string) => {
-  const dbUser = await User.findById(userId);
+  const dbUser = await User.findById(userId)
+    .populate({
+      path: 'roles',
+      select: 'name',
+    })
+    .select('-password -createdAt -updatedAt');
   if (!dbUser) throw ApiError.notFound('User not found');
+
   return {
     user: {
-      ...omit(dbUser.toJSON(), ['password', 'roles', 'createdAt', 'updatedAt']),
+      ...dbUser.toObject(),
     },
   };
 };
@@ -228,9 +235,38 @@ const verifyPassword = async (userId: string, password: string) => {
   return dbUser;
 }
 
+const accessOrganization = async (userId: string) => {
+  const dbUser = await User.findById(userId)
+    .populate({
+      path: 'roles',
+      select: 'name',
+    })
+    .select('-password -createdAt -updatedAt');
+  if (!dbUser) throw ApiError.notFound('User not found');
+
+  return {
+    user: {
+      ...dbUser.toObject(),
+    },
+  };
+}
+
+const myOrganization = async (userId: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const result: any = await User.aggregate([
+    { $match: { _id: new mongoose.Types.ObjectId(userId) } },
+    { $lookup: { from: 'organizations', localField: 'organization', foreignField: '_id', as: 'organization' } },
+    { $project: { _id: 0, organization: { $arrayElemAt: ['$organization', 0] } } }
+  ])
+  return result[0].organization
+}
+
+
 export default {
   register,
   login,
+  myOrganization,
+  accessOrganization,
   forgetPassword,
   resetPassword,
   changePassword,

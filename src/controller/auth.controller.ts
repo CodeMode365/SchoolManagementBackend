@@ -1,6 +1,11 @@
-import { AuthService } from '@/services';
+import { AuthService, CrudService } from '@/services';
 import { ValChecker } from '@/helpers';
 import type { Request, Response } from 'express';
+import type { UserSchemaType } from '@/types/model';
+import { User } from '@/models';
+import mongoose from 'mongoose';
+
+const CrudSrv = new CrudService<UserSchemaType>(User);
 
 export const Register = async (req: Request, res: Response) => {
   const { username, password, email, role } = ValChecker.checkMissingFields(
@@ -76,14 +81,28 @@ const logout = async (req: Request, res: Response) => {
 };
 
 const verifyPassword = async (req: Request, res: Response) => {
-  const userId = req.userId
-  const { password } = ValChecker.checkMissingFields(
-    ['password'],
-    req.body
-  );
+  const userId = req.userId;
+  const { password } = ValChecker.checkMissingFields(['password'], req.body);
   const user = await AuthService.verifyPassword(userId, password);
   return res.json(user);
-}
+};
+
+const accessOrganization = async (req: Request, res: Response) => {
+  const userId = req.userId;
+  const { orgId } = ValChecker.checkMissingFields(['orgId'], req.body);
+  const updatedUser = await CrudSrv.update(userId, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    organization: new mongoose.Types.ObjectId(orgId) as any,
+  });
+  return res.json(updatedUser);
+};
+
+const myOrganization = async (req: Request, res: Response) => {
+  const userId = req.userId;
+  const organization = await AuthService.myOrganization(userId);
+  return res.json(organization);
+};
+
 /*
 const getAllSession = () => {};
 const deleteSession = () => {};
@@ -102,5 +121,7 @@ export default {
   updateMyInfo,
   refreshToken,
   logout,
-  verifyPassword
+  verifyPassword,
+  myOrganization,
+  accessOrganization,
 };
