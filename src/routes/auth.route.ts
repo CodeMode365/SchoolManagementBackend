@@ -25,10 +25,12 @@ router.post('/change-password', AuthController.changePassword);
 
 //user profile handling
 router.get('/me', can(''), AuthController.myInfo);
+router.get('/me/getOrganization', can(''), AuthController.myOrganization);
 
 router.post('/logout', AuthController.logout);
 router.post('/token/refresh', AuthController.refreshToken);
 
+router.post('/access/organization', can("SuperAdmin"), AuthController.accessOrganization);
 /*
 
 route.put('/me', AuthController.updateMyInfo);

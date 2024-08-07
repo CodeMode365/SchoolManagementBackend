@@ -39,6 +39,7 @@ const eventSchema = new Schema<EventSchemaType>(
       // has one organization
       type: Schema.Types.ObjectId,
       ref: 'Organization',
+      required: true,
     },
   },
   {

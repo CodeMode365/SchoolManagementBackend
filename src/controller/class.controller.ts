@@ -12,7 +12,7 @@ const create = async (req: Request, res: Response) => {
     ['className'],
     req.body
   );
-  const classData = await CrudSrv.create({ ...payload });
+  const classData = await CrudSrv.create({ ...payload, organization: req.orgId });
   return res.json(classData);
 };
 
@@ -36,12 +36,15 @@ const update = async (req: Request, res: Response) => {
 
 const getAll = async (req: Request, res: Response) => {
   const { filter } = req.query;
+  const orgId = req.orgId
   const { search, limit = 20, page = 1 } = JSON.parse(filter as string);
-  const query: FilterQuery<ClassSchemaType> = {};
-  if (search && typeof search === 'string') {
-    query.$text = { $search: search };
-  }
-  const classes = await CrudSrv.getAll(query, { page, limit });
+  const filters: FilterQuery<ClassSchemaType> = {
+    $and: [
+      { organization: { $eq: orgId } },
+      search && { $text: { $search: search } },
+    ].filter(Boolean),
+  };
+  const classes = await CrudSrv.getAll(filters, { page, limit });
   return res.json(classes);
 };
 
