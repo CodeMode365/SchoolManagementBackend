@@ -8,11 +8,13 @@ import { socket } from '@/config';
 import { SocketChannelSetup } from '@/socket';
 import type { Request, Response, NextFunction } from 'express';
 import cors, { type CorsOptions } from 'cors';
+import { rateLimit } from "express-rate-limit"
 
 const PORT = process.env.PORT || 4300;
 const allowedOrigins = process.env.CLIENT_URL || '*';
 const corsOptions: CorsOptions = {
   origin: allowedOrigins === '*' ? '*' : allowedOrigins.split(','),
+  optionsSuccessStatus: 200,
   credentials: true,
   allowedHeaders: [
     'Content-Type',
@@ -23,10 +25,21 @@ const corsOptions: CorsOptions = {
 };
 
 const app = express();
+const limiter = rateLimit({
+  windowMs: 50 * 60 * 1000, //15min
+  limit: 6000,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  message: {
+    status: 429,
+    error: "Too many request from this IP, please try again after 15 seconds"
+  }
+})
 const server = socket.initializeSocket(app);
 SocketChannelSetup();
 
 app.use(express.json());
+app.use(limiter)
 app.use(cors(corsOptions));
 app.use(morganLogger.dbReqHandler);
 app.use(morganLogger.consoleReqHandler);
@@ -39,7 +52,7 @@ app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
     return res.status(err.statusCode).json({ error: err.message });
   }
   logger.error(err);
-  res.status(500).send(`Something broke! \n ${err}!`);
+  res.status(500).json({ error: `${err}!` });
 });
 
 app.get('/', (req, res) => {
