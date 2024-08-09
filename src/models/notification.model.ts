@@ -1,7 +1,8 @@
 import { PriorityType, StatusType } from '@/config/enums.config';
+import type { NotificationSchemaType } from '@/types/model';
 import { Schema, model } from 'mongoose';
 
-const notificationSchema = new Schema({
+const notificationSchema = new Schema<NotificationSchemaType>({
   title: {
     type: String,
     required: true,
@@ -27,16 +28,17 @@ const notificationSchema = new Schema({
     enum: StatusType,
     required: false,
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+}, { timestamps: true });
 
 const Notification = model('Notification', notificationSchema);
 

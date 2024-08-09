@@ -10,6 +10,7 @@ import { default as ClassRoute } from './class.route';
 import { default as OrganizationRoute } from './organization.route';
 // import { default as SessionRoute } from './session.route';
 import { default as TokenRoute } from './token.route';
+import { default as TransactionRoute } from './transaction.route'
 import { Router } from 'express';
 
 const router = Router();
@@ -26,5 +27,6 @@ router.use('/classes', ClassRoute);
 // router.use('/sessions', SessionRoute);
 router.use('/tokens', TokenRoute);
 router.use('/organizations', OrganizationRoute);
+router.use('/transactions', TransactionRoute);
 
 export default router;

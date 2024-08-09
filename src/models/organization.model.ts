@@ -11,14 +11,18 @@ const organizationSchema = new Schema<OrganizationSchemaType>(
       type: String,
       required: true,
     },
-    phoneNumber: {
+    phone: [{
       type: String,
       required: true,
-    },
+    }],
     email: {
       type: String,
       required: true,
       unique: true,
+    },
+    status: {
+      type: String,
+      enum: ["active", "inactive"]
     },
     urls: [
       // has many social links

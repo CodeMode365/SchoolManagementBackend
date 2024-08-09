@@ -1,3 +1,4 @@
+import { AccountType } from '@/config/enums.config';
 import { AuthController } from '@/controller';
 import { can } from '@/middleware';
 import { Router } from 'express';
@@ -19,18 +20,22 @@ router.post('/login', AuthController.LogIn);
 
 //password management
 router.post('/forget-password', AuthController.forgetPassword);
-router.post("/verify-password", AuthController.verifyPassword);
+router.post('/verify-password', AuthController.verifyPassword);
 router.post('/reset-password', AuthController.resetPassword);
 router.post('/change-password', AuthController.changePassword);
 
 //user profile handling
-router.get('/me', can(''), AuthController.myInfo);
-router.get('/me/getOrganization', can(''), AuthController.myOrganization);
+router.get('/me', can(), AuthController.myInfo);
+router.get('/me/getOrganization', can(), AuthController.myOrganization);
 
-router.post('/logout', AuthController.logout);
-router.post('/token/refresh', AuthController.refreshToken);
+router.post('/logout', can(), AuthController.logout);
+router.post('/token/refresh', can(), AuthController.refreshToken);
 
-router.post('/access/organization', can("SuperAdmin"), AuthController.accessOrganization);
+router.post(
+  '/access/organization',
+  can([AccountType.SUPER_ADMIN]),
+  AuthController.accessOrganization
+);
 /*
 
 route.put('/me', AuthController.updateMyInfo);

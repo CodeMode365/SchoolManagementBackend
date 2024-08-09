@@ -1,10 +1,9 @@
 import { logger, redis } from '@/config';
-import { ApiError } from '@/utils';
 import type { NextFunction, Request, Response } from 'express';
 
 const getCache = (baseKey: string) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    const { url, method } = req;
+    const { url } = req;
     const key = `${baseKey}:${url.slice(1, url.length)}`;
     const cachedResponse = await redis.get(key);
     if (cachedResponse) {
