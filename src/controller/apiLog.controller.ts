@@ -3,7 +3,6 @@ import { ApiLog } from '@/models';
 import { CrudService } from '@/services';
 import type { ApiLogSchemaType } from '@/types/model';
 import type { Request, Response } from 'express';
-import moment from 'moment';
 import type { FilterQuery } from 'mongoose';
 
 const CrudSrv = new CrudService<ApiLogSchemaType>(ApiLog);

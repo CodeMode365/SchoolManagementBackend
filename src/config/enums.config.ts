@@ -123,3 +123,9 @@ export enum Email_Type {
   RESET_PASSWORD = 'Reset Password',
   ACCOUNT_REGISTRATION = 'Account Registration',
 }
+
+export enum TransactionStatusType {
+  COMPLETED = "Completed",
+  PENDING = "Pending",
+  CANCELLED = "Cancelled"
+}

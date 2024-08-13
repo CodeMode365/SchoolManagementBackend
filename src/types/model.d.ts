@@ -6,6 +6,7 @@ import type {
   FeeStatusType,
   GenderType,
   PriorityType,
+  RegistrationStatusType,
   StatusType,
   SubjectType,
 } from '@/config/enums.config';
@@ -24,6 +25,7 @@ export interface StudentSchemaType extends Document {
   phone: string;
   parents: mongoose.Types.Array<mongoose.ObjectId>;
   class: ObjectId;
+  section: ObjectId;
   organization: ObjectId;
   user: ObjectId;
 }
@@ -69,7 +71,7 @@ export interface BillSchemaType extends Document {
 
 export interface ClassSchemaType extends Document {
   className: string;
-  sections: ObjectId[]
+  sections: ObjectId[];
   organization: ObjectId;
 }
 
@@ -154,6 +156,7 @@ export interface NotificationSchemaType extends Document {
   status?: StatusType;
   createdBy: ObjectId;
   createdAt: Date;
+  user: ObjectId;
 }
 
 export interface Url {
@@ -164,10 +167,11 @@ export interface Url {
 export interface OrganizationSchemaType extends Document {
   name: string;
   address: string;
-  phoneNumber: string;
+  phone: string[];
   email: string;
   urls: Url[];
   createdAt: Date;
+  status: 'active' | 'inactive';
   classes: ObjectId[];
 }
 
@@ -220,4 +224,34 @@ export interface ComplaintSchemaType extends Document {
   description: string;
   user: ObjectId;
   organization: ObjectId;
+}
+
+export interface TransactionSchemaType extends Document {
+  amount: number;
+  type: string;
+  status: TransactionStatusType;
+  createdBy: Schema.Types.ObjectId;
+  organization: Schema.Types.ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
+  fullDescription: string;
+}
+
+export interface AdmissionSchemeType extends Document {
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+  dateOfBirth: Date;
+  gender: GenderType;
+  address: {
+    city: string;
+    tole: string;
+  };
+  phone: string;
+  parents: ObjectId[];
+  previousSchool: { name: string; location: string };
+  class: ObjectId;
+  section: ObjectId;
+  organization: ObjectId;
+  status: RegistrationStatusType;
 }

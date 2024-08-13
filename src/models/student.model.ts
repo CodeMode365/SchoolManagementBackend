@@ -39,12 +39,14 @@ const studentSchema = new Schema<StudentSchemaType>(
         ref: 'Parent',
       },
     ],
-    class: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Class',
-      },
-    ],
+    class: {
+      type: Schema.Types.ObjectId,
+      ref: 'Class',
+    },
+    section: {
+      type: Schema.Types.ObjectId,
+      ref: 'Section',
+    },
     organization: {
       type: Schema.Types.ObjectId,
       ref: 'Organization',
@@ -58,6 +60,14 @@ const studentSchema = new Schema<StudentSchemaType>(
   },
   { timestamps: true }
 );
+
+studentSchema.index({
+  firstName: 'text',
+  middleName: 'text',
+  lastName: 'text',
+  city: 'text',
+  tole: 'text',
+});
 
 const Student = model('Student', studentSchema);
 

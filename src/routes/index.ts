@@ -10,14 +10,18 @@ import { default as ClassRoute } from './class.route';
 import { default as OrganizationRoute } from './organization.route';
 // import { default as SessionRoute } from './session.route';
 import { default as TokenRoute } from './token.route';
-import { default as TransactionRoute } from './transaction.route'
+import { default as TransactionRoute } from './transaction.route';
+import { default as TeacherRoute } from './teacher.route';
+import { default as StaffRoute } from './staff.route';
 import { Router } from 'express';
 
 const router = Router();
 
 router.use('/auth', AuthRoute);
-router.use('/students', StudentRoute);
-router.use('/parents', ParentRoute);
+router.use('/users/students', StudentRoute);
+router.use('/users/parents', ParentRoute);
+router.use('/users/teachers', TeacherRoute);
+router.use('/users/staffs', StaffRoute);
 router.use('/attendances', AttendanceRoute);
 router.use('/apiLogs', ApiLogRoute);
 router.use('/roles', RoleRoute);

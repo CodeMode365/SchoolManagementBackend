@@ -20,3 +20,5 @@ export { default as Role } from './role.model';
 export { default as Permission } from './permission.model';
 export { default as Attendance } from './attendance.model';
 export { default as Complaint } from './complaint.model';
+export { default as Transaction } from './transaction.model';
+export { default as Admission } from './admission.model';

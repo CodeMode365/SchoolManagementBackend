@@ -16,3 +16,6 @@ export { default as OrganizationController } from './organization.controller';
 export { default as TokenController } from './token.controller';
 export { default as PermissionController } from './permission.controller';
 export { default as ComplaintController } from './complaint.controller';
+export { default as TransactionController } from './transaction.controller';
+export { default as TeacherController } from './teacher.controller';
+export { default as AdmissionController } from './admission.controller';

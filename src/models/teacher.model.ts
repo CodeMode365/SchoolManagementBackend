@@ -32,8 +32,8 @@ const teacherSchema = new Schema<TeacherSchemaType>(
     phone: String,
     email: String,
     joinedDate: Date,
-    education: String,
-    experience: String,
+    education: [{ degree: String, completedDate: Date || 'Running' }],
+    experience: [{ organization: String, experience: String }],
     user: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -48,6 +48,20 @@ const teacherSchema = new Schema<TeacherSchemaType>(
 
   { timestamps: true }
 );
+
+teacherSchema.virtual('fullName').get(function () {
+  return `${this.firstName} ${this.middleName} ${this.lastName}`;
+});
+
+teacherSchema.index({
+  fullName: 'text',
+  firstName: 'text',
+  lastName: 'text',
+  middleName: 'text',
+  email: 'text',
+  phone: 'text',
+  address: 'text',
+});
 
 const Teacher = model('Teacher', teacherSchema);
 

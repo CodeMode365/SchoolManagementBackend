@@ -1,8 +1,15 @@
+import { AccountType } from '@/config/enums.config';
 import { StudentController } from '@/controller';
+import { can } from '@/middleware';
 import { Router } from 'express';
 
 const router = Router();
 
+router.get(
+  '/all/:orgId',
+  can([AccountType.ADMIN, AccountType.SUPER_ADMIN]),
+  StudentController.getAll
+);
 router.get('/:studentId', StudentController.getStudent);
 router.post('/add', StudentController.addStudent);
 router.patch('/update/:studentId', StudentController.update);

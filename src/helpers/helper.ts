@@ -8,7 +8,7 @@ const pageProvider = (total: number, page: number = 1, limit: number = 20) => {
   return {
     pagination: {
       prevPage: currentPage === 1 ? null : currentPage - 1,
-      nextPage: currentPage === lastPage ? null : currentPage + 1,
+      nextPage: currentPage >= lastPage ? null : currentPage + 1,
       total,
       lastPage,
       currentPage,

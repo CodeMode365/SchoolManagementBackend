@@ -48,7 +48,10 @@ export default {
     complaints: 'complaints',
     tokens: 'tokens',
     sessions: 'sessions',
-    groups: "groups"
+    groups: 'groups',
+    transactions: 'transactions',
+    events: 'events',
+    admissions: 'admissions',
   },
   client_url: process.env.CLIENT_URL || 'http://localhost:3000',
 };
