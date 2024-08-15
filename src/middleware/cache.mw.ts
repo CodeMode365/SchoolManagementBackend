@@ -1,8 +1,11 @@
-import { logger, redis } from '@/config';
+import { logger, redisClient } from '@/config';
 import type { NextFunction, Request, Response } from 'express';
 
+const { redis, isRedisConnected } = redisClient;
 const getCache = (baseKey: string) => {
   return async (req: Request, res: Response, next: NextFunction) => {
+    if (!isRedisConnected) next();
+
     const { url } = req;
     const key = `${baseKey}:${url.slice(1, url.length)}`;
     const cachedResponse = await redis.get(key);
@@ -25,6 +28,8 @@ const getCache = (baseKey: string) => {
 
 const clearCache = (baseKey: string) => {
   return (_req: Request, res: Response, next: NextFunction) => {
+    if (!isRedisConnected) next();
+
     const originalJson = res.json;
     res.json = (body: any) => {
       const stream = redis.scanStream({ match: `${baseKey}:*` });
