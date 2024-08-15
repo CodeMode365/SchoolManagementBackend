@@ -28,9 +28,12 @@ const getCache = (baseKey: string) => {
 
 const clearCache = (baseKey: string) => {
   return (_req: Request, res: Response, next: NextFunction) => {
-    if (!isRedisConnected) next();
-
-    const originalJson = res.json;
+    if (!isRedisConnected) {
+      console.log('Redis is not connected. Skipping cache clearing.');
+      return next(); // Continue to the next middleware if Redis is not connected
+    }
+    // Bind the original res.json function to the current context (res) so that it can be called later
+    const originalJson = res.json.bind(res);
     res.json = (body: any) => {
       const stream = redis.scanStream({ match: `${baseKey}:*` });
 
@@ -40,7 +43,7 @@ const clearCache = (baseKey: string) => {
           keys.forEach((key: string) => {
             pipeline.del(key);
           });
-          pipeline.exec((err, results) => {
+          pipeline.exec((err) => {
             if (err) {
               logger.error(`Error deleting keys: ${baseKey}:*`, err);
             } else {
@@ -53,11 +56,14 @@ const clearCache = (baseKey: string) => {
       stream.on('end', () => {
         console.log('Completed scanning and deleting keys.');
       });
-
-      return originalJson.call(res, body);
+      // Call the original res.json method with the body to send the response
+      // After this, the response has been sent, so we can't send any more headers
+      // or status codes. The clearCache middleware should be used before any
+      // other middleware that may send a response.
+      return originalJson(body);
     };
 
-    next();
+    next(); // Ensure next middleware/route handler is called
   };
 };
 
