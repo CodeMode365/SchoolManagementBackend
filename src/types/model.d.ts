@@ -81,6 +81,7 @@ export interface ClassSectionType extends Document {
   classTeacher: ObjectId;
   teachers: ObjectId[];
   class: ObjectId;
+  subjects: ObjectId[];
 }
 
 export interface UserSessionSchemaType extends Document {
@@ -254,4 +255,16 @@ export interface AdmissionSchemeType extends Document {
   section: ObjectId;
   organization: ObjectId;
   status: RegistrationStatusType;
+}
+
+export interface SubjectSchemaType {
+  name: string;
+  code: string;
+  description?: string;
+  organization: mongoose.Schema.Types.ObjectId | string;
+  createdBy?: mongoose.Schema.Types.ObjectId | string;
+  updatedBy?: mongoose.Schema.Types.ObjectId | string;
+  book: { name: string; publication: string };
+  isActive?: boolean;
+  teacher: ObjectId;
 }
