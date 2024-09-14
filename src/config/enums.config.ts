@@ -28,6 +28,7 @@ export enum AccountType {
 export enum ExamType {
   TEST = 'Test',
   EXAM = 'Exam',
+  PRACTICAL = 'Practical',
   OTHER = 'Other',
 }
 
@@ -125,7 +126,7 @@ export enum Email_Type {
 }
 
 export enum TransactionStatusType {
-  COMPLETED = "Completed",
-  PENDING = "Pending",
-  CANCELLED = "Cancelled"
+  COMPLETED = 'Completed',
+  PENDING = 'Pending',
+  CANCELLED = 'Cancelled',
 }

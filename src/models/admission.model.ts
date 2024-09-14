@@ -41,10 +41,6 @@ const admissionSchema = new Schema<AdmissionSchemeType>({
     type: Schema.Types.ObjectId,
     ref: 'Class',
   },
-  section: {
-    type: Schema.Types.ObjectId,
-    ref: 'Section',
-  },
   status: {
     type: String,
     enum: RegistrationStatusType,

@@ -10,7 +10,7 @@ const cacheKey = vars.cacheKey.events;
 router.get(
   '/all/:orgId',
   can([AccountType.SUPER_ADMIN, AccountType.ADMIN, AccountType.SUB_ADMIN]),
-  //   cacheMiddleware.getCache(cacheKey),
+  cacheMiddleware.getCache(cacheKey),
   EventController.getAll
 );
 

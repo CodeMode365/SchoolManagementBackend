@@ -15,7 +15,12 @@ router.get(
   AdmissionController.getAll
 );
 // router.get('/:admissionId', AdmissionController.getById);
-// router.post('/add', AdmissionController.add);
+router.post(
+  '/add',
+  can([AccountType.SUPER_ADMIN, AccountType.ADMIN, AccountType.SUB_ADMIN]),
+  cacheMiddleware.clearCache(cacheKey),
+  AdmissionController.create
+);
 // router.patch('/update/:admissionId', AdmissionController.update);
 // router.delete('/remove/:admissionId', AdmissionController.remove);
 

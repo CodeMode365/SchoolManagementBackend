@@ -8,7 +8,7 @@ import { socket } from '@/config';
 import { SocketChannelSetup } from '@/socket';
 import type { Request, Response, NextFunction } from 'express';
 import cors, { type CorsOptions } from 'cors';
-import { rateLimit } from "express-rate-limit"
+import { rateLimit } from 'express-rate-limit';
 
 const PORT = process.env.PORT || 4300;
 const allowedOrigins = process.env.CLIENT_URL || '*';
@@ -32,14 +32,14 @@ const limiter = rateLimit({
   legacyHeaders: false,
   message: {
     status: 429,
-    error: "Too many request from this IP, please try again after 15 seconds"
-  }
-})
+    error: 'Too many request from this IP, please try again after 15 seconds',
+  },
+});
 const server = socket.initializeSocket(app);
 SocketChannelSetup();
 
 app.use(express.json());
-app.use(limiter)
+app.use(limiter);
 app.use(cors(corsOptions));
 app.use(morganLogger.dbReqHandler);
 app.use(morganLogger.consoleReqHandler);

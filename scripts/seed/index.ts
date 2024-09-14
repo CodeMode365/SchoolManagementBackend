@@ -23,6 +23,7 @@ import {
   Student,
   Teacher,
   Token,
+  Subject,
 } from '@/models';
 import generateDummyData from './data/DataGenerator';
 
@@ -76,6 +77,8 @@ const useModel = (modelName: string) => {
       return Teacher;
     case 'token':
       return Token;
+    case 'subject':
+      return Subject;
     default:
       throw new Error(`Model ${modelName} not found`);
   }

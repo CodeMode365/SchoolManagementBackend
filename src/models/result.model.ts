@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 import type { ResultSchemaType } from '@/types/model';
-import { ExamType, SubjectType } from '@/config/enums.config';
+// import { ExamType } from '@/config/enums.config';
 
 const resultSchema = new Schema<ResultSchemaType>(
   {
@@ -13,8 +13,8 @@ const resultSchema = new Schema<ResultSchemaType>(
     marks: [
       {
         subject: {
-          type: String,
-          enum: SubjectType,
+          type: Schema.Types.ObjectId,
+          ref: 'Subject',
           required: true,
         },
         passMark: { type: Number, required: true },
@@ -34,14 +34,9 @@ const resultSchema = new Schema<ResultSchemaType>(
       type: String,
       required: false,
     },
-    examDate: {
-      type: Date,
-      required: true,
-    },
-    examType: {
-      type: String,
-      enum: ExamType,
-      required: true,
+    exam: {
+      type: Schema.Types.ObjectId,
+      ref: 'Exam',
     },
   },
   { timestamps: true }

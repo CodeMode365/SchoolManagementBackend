@@ -7,6 +7,7 @@ const userSchema = new Schema<UserSchemaType>(
     username: { type: String, required: true },
     email: {
       type: String,
+      unique: true,
       required: true,
     },
     password: {
@@ -28,7 +29,6 @@ const userSchema = new Schema<UserSchemaType>(
     organization: {
       type: Schema.Types.ObjectId,
       ref: 'Organization',
-      required: true,
     },
   },
   { timestamps: true }

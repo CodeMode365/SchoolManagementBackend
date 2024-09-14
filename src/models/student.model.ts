@@ -52,11 +52,11 @@ const studentSchema = new Schema<StudentSchemaType>(
       ref: 'Organization',
       required: true,
     },
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: false,
-    },
+    // user: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'User',
+    //   required: false,
+    // },
   },
   { timestamps: true }
 );
@@ -65,8 +65,8 @@ studentSchema.index({
   firstName: 'text',
   middleName: 'text',
   lastName: 'text',
-  city: 'text',
-  tole: 'text',
+  'address.city': 'text',
+  'address.tole': 'text',
 });
 
 const Student = model('Student', studentSchema);

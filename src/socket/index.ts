@@ -27,7 +27,6 @@ export const SocketChannelSetup = () => {
             );
             break;
         }
-        // eslint-disable-next-line @typescript-eslint/disable-next-line
       } catch (error: any) {
         throw new Error(error);
       }

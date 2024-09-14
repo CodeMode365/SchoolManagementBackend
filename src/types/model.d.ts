@@ -126,16 +126,17 @@ export interface ResultSchemaType extends Document {
   student: ObjectId;
   subject: SubjectType;
   marks: {
-    subject: SubjectType;
+    subject: ObjectId;
     passMark: number;
     fullMark: number;
     obtainedMark: number;
   }[];
   grade: string;
   position: number;
-  examDate: Date;
+  // examDate: Date;
+  // examType: ExamType;
   remarks?: string;
-  examType: ExamType;
+  exam: ObjectId;
 }
 
 export interface ExamSchemaType extends Document {

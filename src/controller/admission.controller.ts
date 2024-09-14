@@ -1,10 +1,11 @@
+import { ValChecker } from '@/helpers';
 import { Admission } from '@/models';
 import { CrudService } from '@/services';
-import type { AdminSchemaType, AdmissionSchemeType } from '@/types/model';
+import type { AdmissionSchemeType } from '@/types/model';
 import type { Request, Response } from 'express';
 import type { FilterQuery } from 'mongoose';
 
-const CrudSrv = new CrudService<AdminSchemaType>(Admission);
+const CrudSrv = new CrudService<AdmissionSchemeType>(Admission);
 
 const getAll = async (req: Request, res: Response) => {
   const { filter } = req.query;
@@ -19,6 +20,34 @@ const getAll = async (req: Request, res: Response) => {
     ].filter(Boolean),
   };
   const response = await CrudSrv.getAll(filters, { page, limit });
+  return res.status(200).json(response);
+};
+
+const create = async (req: Request, res: Response) => {
+  const orgId = req.orgId;
+  const payload = ValChecker.checkMissingFields(
+    [
+      'firstName',
+      'middleName',
+      'dateOfBirth',
+      'lastName',
+      'parents',
+      'gender',
+      'address',
+      'phone',
+      'address',
+      'phone',
+      'class',
+    ],
+    req.body
+  );
+  const { lastName, previousSchool } = req.body;
+  const response = await CrudSrv.create({
+    ...payload,
+    lastName,
+    previousSchool,
+    organization: orgId,
+  });
   return res.status(200).json(response);
 };
 
@@ -55,7 +84,7 @@ const getAll = async (req: Request, res: Response) => {
 export default {
   getAll,
   //   getById,
-  //   create,
+  create,
   //   update,
   //   remove,
   //   bulkAdd,
