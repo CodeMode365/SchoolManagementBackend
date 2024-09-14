@@ -19,3 +19,5 @@ export { default as ComplaintController } from './complaint.controller';
 export { default as TransactionController } from './transaction.controller';
 export { default as TeacherController } from './teacher.controller';
 export { default as AdmissionController } from './admission.controller';
+export { default as ChatController } from './chat.controller';
+export { default as UserController } from './user.controller';

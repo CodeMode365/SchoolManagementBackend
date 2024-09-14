@@ -14,6 +14,10 @@ const userSchema = new Schema<UserSchemaType>(
       type: String,
       required: true,
     },
+    isOnline: {
+      type: Boolean,
+      default: false,
+    },
     roles: [
       {
         type: Schema.Types.ObjectId,

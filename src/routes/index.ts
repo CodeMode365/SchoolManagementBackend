@@ -13,15 +13,18 @@ import { default as TokenRoute } from './token.route';
 import { default as TransactionRoute } from './transaction.route';
 import { default as TeacherRoute } from './teacher.route';
 import { default as StaffRoute } from './staff.route';
+import { default as ChatRoute } from './chat.route';
+import { default as UserRoute } from './user.route';
 import { Router } from 'express';
 
 const router = Router();
 
 router.use('/auth', AuthRoute);
-router.use('/users/students', StudentRoute);
-router.use('/users/parents', ParentRoute);
-router.use('/users/teachers', TeacherRoute);
-router.use('/users/staffs', StaffRoute);
+router.use('/users', UserRoute);
+router.use('/students', StudentRoute);
+router.use('/parents', ParentRoute);
+router.use('/teachers', TeacherRoute);
+router.use('/staffs', StaffRoute);
 router.use('/attendances', AttendanceRoute);
 router.use('/apiLogs', ApiLogRoute);
 router.use('/roles', RoleRoute);
@@ -32,5 +35,6 @@ router.use('/classes', ClassRoute);
 router.use('/tokens', TokenRoute);
 router.use('/organizations', OrganizationRoute);
 router.use('/transactions', TransactionRoute);
+router.use('/chat', ChatRoute);
 
 export default router;

@@ -23,3 +23,4 @@ export { default as Complaint } from './complaint.model';
 export { default as Transaction } from './transaction.model';
 export { default as Admission } from './admission.model';
 export { default as Subject } from './subject.model';
+export { default as Message } from './message.model';

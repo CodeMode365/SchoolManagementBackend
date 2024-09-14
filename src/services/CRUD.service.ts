@@ -10,6 +10,7 @@ interface iDateFilter {
 interface iPageArgs {
   page: number;
   limit: number;
+  sort?: { [key: string]: 1 | -1 };
 }
 
 // Define the basic filter type
@@ -44,10 +45,11 @@ export default class CrudService<T extends Document> {
   }
 
   public async getAll(filters: FilterQuery<T>, pageArgs: iPageArgs) {
-    const { page = 1, limit = 10 } = pageArgs;
+    const { page = 1, limit = 10, sort } = pageArgs;
     const skip = (page - 1) * limit;
     const data = await this.Model.aggregate([
       { $match: { ...filters, $comment: 'Filter items by date' } },
+      ...(sort ? [{ $sort: sort }] : []),
       { $skip: skip },
       { $limit: limit },
     ]);
