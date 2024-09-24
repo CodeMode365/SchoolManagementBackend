@@ -1,0 +1,76 @@
+
+/** Example 1 */
+
+app.get('/stream', (req, res) => {
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    Connection: 'keep-alive',
+  });
+
+  const sendDummyData = setInterval(() => {
+    res.write(
+      `data: ${JSON.stringify({
+        id: faker.datatype.uuid(),
+        name: faker.name.firstName(),
+        email: faker.internet.email(),
+      })}\n\n`
+    );
+  }, 1000);
+
+  req.on('close', () => {
+    clearInterval(sendDummyData);
+    res.end();
+  });
+})
+
+
+/** Example 2 */
+
+app.get('/stream', (req, res) => {
+  res.writeHead(200, {
+    'Content-Type': 'application/json',
+    // 'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    Connection: 'keep-alive',
+  });
+
+  let count = 0;
+  const sendDummyData = setInterval(() => {
+    res.write(
+      JSON.stringify({
+        id: faker.datatype.uuid(),
+        name: faker.name.firstName(),
+        email: faker.internet.email(),
+      })
+    );
+    count++;
+    if (count >= 15) {
+      clearInterval(sendDummyData);
+      res.end();
+    }
+  }, 1000);
+});
+
+
+/** Example 3 */
+app.get('/stream', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Transfer-Encoding', 'chunked');
+
+  const sendDummyData = setInterval(() => {
+    res.write(
+      `${JSON.stringify({
+        id: faker.datatype.uuid(),
+        name: faker.name.firstName(),
+        email: faker.internet.email(),
+      })}\n`
+    );
+  }, 1000);
+
+  // Handle client disconnect
+  req.on('close', () => {
+    clearInterval(sendDummyData);
+    res.end();
+  });
+});
