@@ -1,71 +1,42 @@
-/*
 import { Redis } from 'ioredis';
 
-const redis = new Redis();
-
-redis.flushall((err, success) => {
-  //clear all previous keys from all db in redis
-  if (err) {
-    console.log(err);
-  } else {
-    console.log('Cache cleared!');
-  }
+const redis = new Redis({
+  retryStrategy(times) {
+    const delay = Math.min(times * 100, 2000);
+    return delay;
+  },
 });
 
-redis.on('connecting', () => {
-  console.log('Connecting to Redis...');
-});
-
-redis.on('ready', () => {
-  console.log('Connected to Redis');
-});
-
-redis.on('error', (err: Error) => {
-  console.error('Error connecting to Redis:', err);
-});
-
-redis.on('end', () => {
-  console.log('Disconnected from Redis');
-});
-export default redis;
-*/
-
-import { Redis } from 'ioredis';
-
-const redis = new Redis();
 let isRedisConnected = false;
-let retryCount = 0; // For optional retry logic
+let retryCount = 0;
 
-const maxRetryCount = 1; // Maximum retry attempts
-const retryDelay = 60 * 1000; // Retry delay in milliseconds
+const maxRetryCount = 1;
+const retryDelay = 60 * 1000;
 
-redis.on('connecting', () => {
-  console.log('Connecting to Redis...');
-});
+redis.on('connecting', () => {});
 
 redis.on('ready', () => {
-  console.log('Connected to Redis');
+  // console.log('Connected to Redis');
   isRedisConnected = true;
-  retryCount = 0; // Reset retry count on successful connection
+  retryCount = 0;
 });
 
 redis.on('error', (err: Error) => {
-  console.error('Error connecting to Redis:', err);
+  // console.error('Error connecting to Redis:', err);
   isRedisConnected = false;
   retryCount++;
 
   if (retryCount <= maxRetryCount) {
-    console.log(`Retrying Redis connection in ${retryDelay}ms`);
     setTimeout(() => {
       redis.connect();
     }, retryDelay);
   } else {
-    console.error('Maximum retry attempts reached. Redis connection failed.');
+    // console.error('Maximum retry attempts reached. Redis connection failed.');
   }
 });
 
 redis.on('end', () => {
-  console.log('Disconnected from Redis');
+  // console.log('Disconnected from Redis');
   isRedisConnected = false;
 });
 
