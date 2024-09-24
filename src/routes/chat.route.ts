@@ -18,6 +18,18 @@ router.get(
 );
 
 router.get(
+  '/sendMessages',
+  can([
+    AccountType.ADMIN,
+    AccountType.SUPER_ADMIN,
+    AccountType.SUB_ADMIN,
+    AccountType.PARENT,
+    AccountType.TEACHER,
+  ]),
+  ChatController.sendMessage
+);
+
+router.get(
   '/messages/:friendId',
   can([
     AccountType.ADMIN,

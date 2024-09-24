@@ -1,35 +1,51 @@
-import { WebSocket } from 'ws';
 import { socket } from '@/config';
+import type { UserSchemaType } from '@/types/model';
+import type { Socket as SocketType } from 'socket.io';
 
-import { handleMessage } from './message';
-import { handleNotification } from './notification';
+const activeUsers: Record<string, UserSchemaType> = {};
 
 export const SocketChannelSetup = () => {
-  const wss = socket.getWsInstance();
+  socket.getIoInstance().on('connection', (socket: SocketType) => {
+    socket.on('setup', (user: UserSchemaType) => {
+      activeUsers[socket.id] = user;
+      socket.join(user._id as string);
+      socket.emit('connected');
+    });
 
-  wss.on('connection', (ws: WebSocket) => {
-    ws.on('message', (message: string) => {
-      try {
-        const { channel, data } = JSON.parse(message);
+    socket.on('join', (roomId: string) => {
+      socket.join(roomId);
+      console.log(`User joined room: ${roomId}`);
+    });
 
-        switch (channel) {
-          case 'message':
-            handleMessage(ws, data);
-            break;
-          case 'notification':
-            handleNotification(ws, data);
-            break;
-          default:
-            ws.send(
-              JSON.stringify({
-                error: 'Invalid channel',
-              })
-            );
-            break;
-        }
-      } catch (error: any) {
-        throw new Error(error);
+    socket.on(
+      'private-message',
+      (data: { sender: string; receiver: string; content: string }) => {
+        const { sender, receiver, content } = data;
+        console.log(data);
+        socket.in(receiver).emit('message', { sender, receiver, content });
       }
+    );
+
+    socket.on('public-message', (data) => {
+      const { users, message } = data;
+      if (!users) return;
+
+      users.forEach((user: { _id: string }) => {
+        socket.to(user._id).emit('message', message);
+      });
+    });
+
+    socket.on('leave-channel', (channelId: string) => {
+      socket.leave(channelId);
+      console.log(`User left channel: ${channelId}`);
+    });
+
+    socket.on('disconnect', () => {
+      console.log(`User disconnected: ${socket.id}`);
+
+      delete activeUsers[socket.id];
+
+      socket.broadcast.emit('active-users', Object.values(activeUsers));
     });
   });
 };

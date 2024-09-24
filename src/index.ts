@@ -1,14 +1,17 @@
 import '@/config';
 import express from 'express';
 import ApiRoutes from '@/routes';
+import cors from 'cors';
+
 import { morganLogger, logger, Swagger } from '@/config';
 import { ApiError } from '@/utils';
 import { Handler } from '@/helpers';
 import { socket } from '@/config';
 import { SocketChannelSetup } from '@/socket';
-import type { Request, Response, NextFunction } from 'express';
-import cors, { type CorsOptions } from 'cors';
 import { rateLimit } from 'express-rate-limit';
+
+import type { CorsOptions } from 'cors';
+import type { Request, Response, NextFunction } from 'express';
 
 const PORT = process.env.PORT || 4300;
 const allowedOrigins = process.env.CLIENT_URL || '*';
@@ -60,7 +63,7 @@ app.get('/', (req, res) => {
 });
 
 app.all('*', (req, res) => {
-  return res.status(404).json({ error: 'Route not found!' });
+  return res.status(404).json({ error: 'Route not found!' + process.pid });
 });
 
 server.listen(PORT, () => {

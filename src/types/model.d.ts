@@ -181,6 +181,7 @@ export interface UserSchemaType extends Document {
   username: string;
   email: string;
   password: string;
+  isOnline: boolean;
   roles: Schema.Types.Array<ObjectId>;
   status: AccountStatusType;
   organization: ObjectId;
@@ -258,7 +259,7 @@ export interface AdmissionSchemeType extends Document {
   status: RegistrationStatusType;
 }
 
-export interface SubjectSchemaType {
+export interface SubjectSchemaType extends Document {
   name: string;
   code: string;
   description?: string;
@@ -268,4 +269,18 @@ export interface SubjectSchemaType {
   book: { name: string; publication: string };
   isActive?: boolean;
   teacher: ObjectId;
+}
+
+export interface MessageSchemaType extends Document {
+  sender: ObjectId;
+  receiver: ObjectId;
+  content: string;
+  isRead: boolean;
+  files: FileSchemaType[];
+}
+export interface FileSchemaType extends Document {
+  filename: string;
+  url: string;
+  mimetype?: string;
+  size?: number;
 }
