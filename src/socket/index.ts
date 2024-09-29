@@ -5,11 +5,18 @@ import type { Socket as SocketType } from 'socket.io';
 const activeUsers: Record<string, UserSchemaType> = {};
 
 export const SocketChannelSetup = () => {
-  socket.getIoInstance().on('connection', (socket: SocketType) => {
+  const io = socket.getIoInstance();
+
+  io.on('connection', (socket: SocketType) => {
     socket.on('setup', (user: UserSchemaType) => {
       activeUsers[socket.id] = user;
       socket.join(user._id as string);
       socket.emit('connected');
+
+      io.emit(
+        'active-users',
+        Object.values(activeUsers).map((obj) => obj._id)
+      );
     });
 
     socket.on('join', (roomId: string) => {
@@ -21,7 +28,6 @@ export const SocketChannelSetup = () => {
       'private-message',
       (data: { sender: string; receiver: string; content: string }) => {
         const { sender, receiver, content } = data;
-        console.log(data);
         socket.in(receiver).emit('message', { sender, receiver, content });
       }
     );
@@ -35,6 +41,19 @@ export const SocketChannelSetup = () => {
       });
     });
 
+    socket.on(
+      'typing',
+      (data: { sender: string; receiver: string; isTyping: boolean }) => {
+        const { receiver, isTyping, sender } = data;
+        console.log(data);
+        socket.to(receiver).emit('typing-status', {
+          sender,
+          receiver,
+          isTyping: isTyping,
+        });
+      }
+    );
+
     socket.on('leave-channel', (channelId: string) => {
       socket.leave(channelId);
       console.log(`User left channel: ${channelId}`);
@@ -45,7 +64,10 @@ export const SocketChannelSetup = () => {
 
       delete activeUsers[socket.id];
 
-      socket.broadcast.emit('active-users', Object.values(activeUsers));
+      socket.broadcast.emit(
+        'active-users',
+        Object.values(activeUsers).map((obj) => obj._id)
+      );
     });
   });
 };
