@@ -61,6 +61,10 @@ app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'server is up!' });
 });
+app.get('/health', (req, res) => {
+  console.log(req.query);
+  res.status(200).json({ message: 'Ok' });
+});
 
 app.all('*', (req, res) => {
   return res.status(404).json({ error: 'Route not found!' + process.pid });

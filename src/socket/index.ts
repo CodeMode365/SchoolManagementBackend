@@ -46,7 +46,7 @@ export const SocketChannelSetup = () => {
       (data: { sender: string; receiver: string; isTyping: boolean }) => {
         const { receiver, isTyping, sender } = data;
         console.log(data);
-        socket.to(receiver).emit('typing-status', {
+        socket.in(receiver).emit('typing-status', {
           sender,
           receiver,
           isTyping: isTyping,

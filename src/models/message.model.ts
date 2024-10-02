@@ -11,32 +11,31 @@ const fileSchema = new Schema<FileSchemaType>(
   { _id: false }
 );
 
-const messageSchema = new Schema<MessageSchemaType>({
-  sender: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+const messageSchema = new Schema<MessageSchemaType>(
+  {
+    sender: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    receiver: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    isRead: {
+      type: Boolean,
+      default: false,
+    },
+    files: [fileSchema],
   },
-  receiver: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  content: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  timestamp: {
-    type: Date,
-    default: Date.now,
-  },
-  isRead: {
-    type: Boolean,
-    default: false,
-  },
-  files: [fileSchema],
-});
+  { timestamps: true }
+);
 
 const Message = model('Message', messageSchema);
 

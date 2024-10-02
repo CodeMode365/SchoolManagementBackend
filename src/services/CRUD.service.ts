@@ -2,10 +2,10 @@ import { Model, Document, type FilterQuery } from 'mongoose';
 import { Helper } from '@/helpers';
 import { ApiError } from '@/utils';
 
-interface iDateFilter {
-  startDate?: Date;
-  endDate?: Date;
-}
+// interface iDateFilter {
+//   startDate?: Date;
+//   endDate?: Date;
+// }
 
 interface iPageArgs {
   page: number;
@@ -14,7 +14,7 @@ interface iPageArgs {
 }
 
 // Define the basic filter type
-type BasicFilter<T> = Partial<Record<keyof T, T[keyof T]>>;
+// type BasicFilter<T> = Partial<Record<keyof T, T[keyof T]>>;
 
 // Define query operators
 // type QueryOperators<T> = {
@@ -53,7 +53,6 @@ export default class CrudService<T extends Document> {
       { $skip: skip },
       { $limit: limit },
     ]);
-    console.log('currentPage', page);
     return {
       data,
       ...Helper.pageProvider(await this.count(filters), page, limit),
@@ -84,9 +83,13 @@ export default class CrudService<T extends Document> {
     return item;
   }
 
-  public async create(item: Partial<T>) {
+  public async create(item: Partial<T>, populate?: string[]) {
     const newItem = new this.Model(item);
     await newItem.save();
+
+    if (populate && populate.length > 0) {
+      return await this.Model.findById(newItem._id).populate(populate);
+    }
     return newItem;
   }
 
@@ -98,6 +101,13 @@ export default class CrudService<T extends Document> {
 
   public async remove(id: string): Promise<void> {
     await this.Model.findByIdAndDelete(id).catch((err) => {
+      console.log(err);
+      throw ApiError.internalError('Failed to remove!');
+    });
+  }
+
+  public async bulkRemove(filters: FilterQuery<T>): Promise<void> {
+    await this.Model.deleteMany(filters).catch((err) => {
       console.log(err);
       throw ApiError.internalError('Failed to remove!');
     });
