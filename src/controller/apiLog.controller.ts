@@ -1,11 +1,45 @@
 import { ValChecker } from '@/helpers';
-import { ApiLog } from '@/models';
+import { ApiLog, User } from '@/models';
 import { CrudService } from '@/services';
 import type { ApiLogSchemaType } from '@/types/model';
+import type { constants } from 'crypto';
 import type { Request, Response } from 'express';
 import type { FilterQuery } from 'mongoose';
 
 const CrudSrv = new CrudService<ApiLogSchemaType>(ApiLog);
+
+axios.get('URL/products?limit=2&page=2', {
+  headers: {
+    Authorization: 'token',
+    query: {
+      limit: 10,
+      page: 1,
+    },
+  },
+});
+
+const { limit = 100, page = 1 } = req.query;
+
+Products.find({ userId, search })
+  .skip((page - 1) * limit);
+  .limit(limit)
+
+  const totalData = Products.find({ userId, search }).count()
+  if (error) {
+    return res.status(500).send({ message: "Error occurred while fetching data" });
+  }
+
+  const paginationData = {
+    total: totalData,
+    lastPage: Math.ceil(totalData / limit),
+    currentPage: page,
+    limit,
+    nextPage: page < Math.ceil(totalData / limit) ? page + 1 : null,
+    prevPage: page > 1 ? page - 1 : null,
+  };
+
+return res.json({data, paginationData})
+
 
 const getAll = async (req: Request, res: Response) => {
   const { filter } = req.query;

@@ -17,8 +17,8 @@ router.get(
   ChatController.getPeoples
 );
 
-router.get(
-  '/sendMessages',
+router.post(
+  '/send-message',
   can([
     AccountType.ADMIN,
     AccountType.SUPER_ADMIN,
@@ -27,6 +27,12 @@ router.get(
     AccountType.TEACHER,
   ]),
   ChatController.sendMessage
+);
+
+router.delete(
+  '/clear-chat/:friendId',
+  can([AccountType.ADMIN, AccountType.SUPER_ADMIN]),
+  ChatController.clearChat
 );
 
 router.get(

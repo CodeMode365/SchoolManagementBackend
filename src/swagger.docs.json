@@ -8,6 +8,7 @@
   "host": "localhost:4300/api/v1",
   "basePath": "/",
   "schemes": [
+    "https",
     "http"
   ],
   "securityDefinitions": {
@@ -73,6 +74,32 @@
       }
     },
     "/auth/forget-password": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
+      }
+    },
+    "/auth/verify-password": {
       "post": {
         "description": "",
         "responses": {
@@ -166,6 +193,150 @@
             "type": "object"
           }
         ]
+      }
+    },
+    "/auth/me/getOrganization": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
+      }
+    },
+    "/auth/token/refresh": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
+      }
+    },
+    "/auth/access/organization": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
+      }
+    },
+    "/users/info/{userId}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/students/all/{orgId}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
       }
     },
     "/students/{studentId}": {
@@ -522,6 +693,30 @@
         }
       }
     },
+    "/teachers/all/{orgId}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/attendances/all": {
       "get": {
         "description": "",
@@ -772,22 +967,28 @@
         }
       }
     },
-    "/events/all": {
+    "/events/all/{orgId}": {
       "get": {
         "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
         "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "filter",
             "in": "query",
             "required": false,
             "type": "object"
           }
-        ]
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
       }
     },
     "/events/add": {
@@ -956,22 +1157,28 @@
         }
       }
     },
-    "/classes/all": {
+    "/classes/all/{orgId}": {
       "get": {
         "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
         "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "filter",
             "in": "query",
             "required": false,
             "type": "object"
           }
-        ]
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
       }
     },
     "/classes/{classId}": {
@@ -1054,6 +1261,310 @@
         "parameters": [
           {
             "name": "classId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/tokens/all": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ]
+      }
+    },
+    "/tokens/{tokenId}": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ]
+      }
+    },
+    "/tokens/by-user/{userId}": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ]
+      }
+    },
+    "/tokens/remove/{tokenId}": {
+      "delete": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ]
+      }
+    },
+    "/organizations/all": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ]
+      }
+    },
+    "/organizations/add": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
+      }
+    },
+    "/organizations/remove/{orgId}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/transactions/all/{orgId}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/transactions/{transactionId}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/transactions/add": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectSchema"
+            }
+          }
+        ]
+      }
+    },
+    "/transactions/update/{transactionId}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/transactions/remove/{transactionId}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/chat/people": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "object"
+          }
+        ]
+      }
+    },
+    "/chat/messages/{friendId}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "friendId",
             "in": "path",
             "required": true,
             "type": "string"

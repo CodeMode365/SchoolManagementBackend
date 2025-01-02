@@ -8,7 +8,7 @@ const { timestamp, combine, printf, errors, prettyPrint } = format;
 const devLogger = () => {
   const logFormat = printf(({ level, message, timestamp, stack }) => {
     const log = `${timestamp} ${level}: ${stack || message}`;
-    console.log(log);
+    // console.log(log);
     return log;
   });
   return createLogger({

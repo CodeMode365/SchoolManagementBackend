@@ -1,35 +1,55 @@
-import type { WebSocket } from 'ws';
+// import { Message } from '@/models';
+// import { CrudService } from '@/services';
+// import type { MessageSchemaType } from '@/types/model';
+// import type { ObjectId } from 'mongoose';
+// import type { WebSocket } from 'ws';
+
 // import { Room } from '@/config/socket';
 
-export const handleMessage = (ws: WebSocket, data: string) => {
-  console.log(ws.roomId);
-  // try {
-  //   const message = JSON.parse(data);
-  //   const { event, payload } = message;
+// const MessageCrudSrv = new CrudService<MessageSchemaType>(Message);
 
-  //   if (!event || !payload) {
-  //     throw new Error('Invalid message format');
-  //   }
+// export const handleMessage = async (
+//   ws: WebSocket,
+//   body: Record<string, unknown>
+// ) => {
+//   const { sender, receiver, content } = body;
 
-  //   switch (event) {
-  //     case 'join_room':
-  //       handleJoinRoom(ws, payload);
-  //       break;
-  //     case 'leave_room':
-  //       handleLeaveRoom(ws, payload);
-  //       break;
-  //     case 'message':
-  //       handleMessageEvent(ws, payload);
-  //       break;
-  //     default:
-  //       console.warn(`Unhandled event: ${event}`);
-  //       break;
-  //   }
-  // } catch (error) {
-  //   console.error('Error handling message:', error);
-  //   ws.send(JSON.stringify({ event: 'error', message: error.message }));
-  // }
-};
+//   if (!sender || !receiver || !content) {
+//     return;
+//   }
+//   const newMessage = await MessageCrudSrv.create({
+//     sender: sender as ObjectId,
+//     receiver: receiver as ObjectId,
+//     content: content as string,
+//   });
+
+// try {
+//   const message = JSON.parse(data);
+//   const { event, payload } = message;
+
+//   if (!event || !payload) {
+//     throw new Error('Invalid message format');
+//   }
+
+//   switch (event) {
+//     case 'join_room':
+//       handleJoinRoom(ws, payload);
+//       break;
+//     case 'leave_room':
+//       handleLeaveRoom(ws, payload);
+//       break;
+//     case 'message':
+//       handleMessageEvent(ws, payload);
+//       break;
+//     default:
+//       console.warn(`Unhandled event: ${event}`);
+//       break;
+//   }
+// } catch (error) {
+//   console.error('Error handling message:', error);
+//   ws.send(JSON.stringify({ event: 'error', message: error.message }));
+// }
+// };
 
 // const handleJoinRoom = (ws: WebSocket, payload: { roomId: string }) => {
 //   const { roomId } = payload;

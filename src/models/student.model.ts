@@ -47,6 +47,7 @@ const studentSchema = new Schema<StudentSchemaType>(
       type: Schema.Types.ObjectId,
       ref: 'Section',
     },
+
     organization: {
       type: Schema.Types.ObjectId,
       ref: 'Organization',

@@ -28,14 +28,17 @@ const remove = async (req: Request, res: Response) => {
 };
 
 const create = async (req: Request, res: Response) => {
-  const payload = ValChecker.checkMissingFields(['name', 'address', 'phone', 'email', 'urls'], req.body);
-  const org = await CrudSrv.create({ ...payload, status: "inactive" });
-  return res.json(org)
-}
+  const payload = ValChecker.checkMissingFields(
+    ['name', 'address', 'phone', 'email', 'urls'],
+    req.body
+  );
+  const org = await CrudSrv.create({ ...payload, status: 'inactive' });
+  return res.json(org);
+};
 
 export default {
   getAll,
   getById,
   remove,
-  create
+  create,
 };
